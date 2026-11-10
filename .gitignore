@@ -5,3 +5,5 @@
 tags
 node_modules
 __pycache__
+# built assets (bench build --app sgs_ui)
+sgs_ui/public/dist/

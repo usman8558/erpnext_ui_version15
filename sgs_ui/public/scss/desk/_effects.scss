@@ -1,0 +1,266 @@
+// Motion & Effects (SGS Settings > Motion & Effects).
+// Each effect is gated by a class that js/desk/settings.js puts on <html>, so
+// the settings form can preview every combination live.
+//
+// Performance rules (all measured, see README > Performance):
+//  - only transform / opacity are animated (compositor-friendly)
+//  - nothing that contains a menu gets a transform (stacking contexts would trap it)
+//  - no :has(), no universal selectors, no endless animation unless opted in
+//  - OS "reduce motion" switches everything off (see _motion.scss + JS checks)
+
+$ws: '[data-page-route="Workspaces"]';
+// where tile hover effects apply: workspaces in read mode + the settings playground
+$tiles: '#{$ws} .layout-main-section:not(.edit-mode), .zn-playground';
+
+// ---------- speed & master switch ----------
+html.zn {
+	&.zn-speed-fast {
+		--zn-speed: 0.7;
+	}
+	&.zn-speed-relaxed {
+		--zn-speed: 1.4;
+	}
+
+	// animations off: zero every duration and stop our keyframe animations
+	&:not(.zn-anim) {
+		--zn-speed: 0;
+
+		.dropdown-menu,
+		.zn-palette.is-open,
+		.zn-palette-panel,
+		.splash img,
+		.zn-sb-item.is-active::before {
+			animation: none !important;
+		}
+	}
+}
+
+// ---------- card hover: Lift ----------
+html.zn.zn-hover-lift {
+	#{$tiles} {
+		// shortcut tiles hold no menus, so they may lift
+		.widget.shortcut-widget-box:hover,
+		.widget.shortcut-widget-box:focus-visible {
+			transform: translateY(-3px);
+			box-shadow: var(--zn-shadow-lg);
+		}
+	}
+}
+
+// ---------- card hover: Glow ----------
+html.zn.zn-hover-glow {
+	#{$tiles} {
+		.widget.shortcut-widget-box:hover,
+		.widget.shortcut-widget-box:focus-visible {
+			box-shadow: 0 0 0 4px var(--zn-primary-soft), var(--zn-shadow-md);
+		}
+	}
+}
+
+// ---------- every other card: shadow / halo only (they contain menus) ----------
+html.zn.zn-hover-lift,
+html.zn.zn-hover-glow {
+	#{$ws} .layout-main-section:not(.edit-mode) {
+		.widget.links-widget-box,
+		.widget.dashboard-widget-box,
+		.widget.quick-list-widget-box,
+		.widget.number-widget-box {
+			transition: box-shadow var(--zn-base) var(--zn-ease), border-color var(--zn-base) var(--zn-ease);
+
+			&:hover {
+				box-shadow: var(--zn-shadow-md);
+				border-color: var(--zn-border-strong);
+			}
+		}
+	}
+}
+
+html.zn.zn-hover-glow #{$ws} .layout-main-section:not(.edit-mode) {
+	.widget.links-widget-box:hover,
+	.widget.dashboard-widget-box:hover,
+	.widget.quick-list-widget-box:hover,
+	.widget.number-widget-box:hover {
+		box-shadow: 0 0 0 4px var(--zn-primary-softer), var(--zn-shadow-md);
+		border-color: var(--zn-primary-border);
+	}
+}
+
+// ---------- icon tile micro-interaction ----------
+html.zn.zn-anim {
+	.zn-tile {
+		transition: transform var(--zn-base) var(--zn-ease), background-color var(--zn-base) var(--zn-ease);
+	}
+	#{$tiles} {
+		.widget.shortcut-widget-box:hover .zn-tile {
+			transform: scale(1.08) rotate(-4deg);
+			background: color-mix(in srgb, var(--zn-tile) 18%, transparent);
+		}
+	}
+
+	// KPI value settles in after its count-up (js/desk/effects.js)
+	.number-widget-box .widget-content .number {
+		transition: color var(--zn-base) var(--zn-ease);
+	}
+}
+
+// ---------- buttons ----------
+html.zn.zn-btn-hover {
+	.btn {
+		transition: background-color var(--zn-fast) var(--zn-ease), border-color var(--zn-fast) var(--zn-ease),
+			box-shadow var(--zn-base) var(--zn-ease), color var(--zn-fast) var(--zn-ease),
+			transform var(--zn-base) var(--zn-ease);
+	}
+
+	.btn-primary:not(:disabled):not(.disabled):hover {
+		transform: translateY(-1px);
+		box-shadow: var(--zn-shadow-brand);
+	}
+
+	.btn-default:not(:disabled):not(.disabled):hover,
+	.btn-secondary:not(:disabled):not(.disabled):hover {
+		transform: translateY(-1px);
+		box-shadow: var(--zn-shadow-sm);
+	}
+
+	.btn:not(:disabled):not(.disabled):active {
+		transform: translateY(0) scale(0.97);
+		transition-duration: 60ms;
+	}
+}
+
+// ---------- ripple ink (js/desk/effects.js) ----------
+html.zn {
+	.zn-ripple-host {
+		position: relative;
+		overflow: hidden;
+	}
+
+	.zn-ripple-ink {
+		position: absolute;
+		border-radius: 50%;
+		pointer-events: none;
+		background: var(--zn-primary);
+		opacity: 0;
+	}
+
+	.btn-primary .zn-ripple-ink,
+	.btn-danger .zn-ripple-ink {
+		background: #fff;
+	}
+}
+
+// ---------- list row accent ----------
+html.zn.zn-row-accent {
+	.list-row-container {
+		position: relative;
+
+		&::before {
+			content: "";
+			position: absolute;
+			left: 0;
+			top: 7px;
+			bottom: 7px;
+			width: 3px;
+			border-radius: 3px;
+			background: var(--zn-gradient-v);
+			transform: scaleY(0);
+			transition: transform var(--zn-base) var(--zn-ease);
+			pointer-events: none;
+			z-index: 1;
+		}
+
+		&:hover::before,
+		&.zn-checked::before {
+			transform: scaleY(1);
+		}
+	}
+}
+
+// ---------- sidebar ----------
+html.zn.zn-sb-motion .zn-sb-item {
+	.zn-sb-icon,
+	.zn-sb-text {
+		transition: transform var(--zn-base) var(--zn-ease), opacity var(--zn-fast) var(--zn-ease);
+	}
+
+	&:hover .zn-sb-icon {
+		transform: translateX(2px) scale(1.06);
+	}
+	&:hover .zn-sb-text {
+		transform: translateX(2px);
+	}
+}
+
+html.zn.zn-anim .zn-sb-item.is-active::before {
+	animation: zn-bar-in var(--zn-slow) var(--zn-ease);
+}
+
+// ---------- dialogs ----------
+html.zn.zn-dialog-pop .modal.fade {
+	.modal-dialog {
+		opacity: 0;
+		transform: translateY(10px) scale(0.965);
+		transition: transform var(--zn-slow) cubic-bezier(0.2, 0.9, 0.3, 1.12), opacity var(--zn-base) var(--zn-ease);
+	}
+	&.show .modal-dialog {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+html.zn.zn-dialog-slide .modal.fade {
+	.modal-dialog {
+		opacity: 0;
+		transform: translateY(-28px);
+		transition: transform var(--zn-slow) var(--zn-ease), opacity var(--zn-base) var(--zn-ease);
+	}
+	&.show .modal-dialog {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+html.zn.zn-dialog-none .modal.fade .modal-dialog {
+	transition: none;
+	transform: none;
+}
+
+// ---------- loading skeletons pulse (only exist while loading) ----------
+html.zn.zn-anim {
+	.workspace-skeleton .skeleton-card,
+	.workspace-sidebar-skeleton .sidebar-box {
+		animation: zn-skeleton 1.2s ease-in-out infinite;
+	}
+}
+
+// ---------- animated workspace header (opt-in: endless animation) ----------
+html.zn.zn-anim.zn-hero-animated .zn-hero::after {
+	animation: zn-drift 14s ease-in-out infinite alternate;
+	will-change: transform;
+}
+
+// ---------- smooth light/dark switch (View Transitions API) ----------
+html.zn::view-transition-old(root),
+html.zn::view-transition-new(root) {
+	animation-duration: var(--zn-slow);
+	animation-timing-function: ease;
+}
+
+@keyframes zn-bar-in {
+	from {
+		transform: scaleY(0);
+	}
+	to {
+		transform: scaleY(1);
+	}
+}
+
+@keyframes zn-skeleton {
+	0%,
+	100% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0.55;
+	}
+}

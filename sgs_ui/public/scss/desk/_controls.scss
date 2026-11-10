@@ -1,0 +1,167 @@
+// Buttons, inputs, checkboxes, pills.
+
+html.zn {
+	// ---------- buttons ----------
+	.btn {
+		border-radius: var(--zn-radius);
+		font-weight: 500;
+		letter-spacing: -0.005em;
+		transition: background-color var(--zn-fast) var(--zn-ease), border-color var(--zn-fast) var(--zn-ease),
+			box-shadow var(--zn-fast) var(--zn-ease), color var(--zn-fast) var(--zn-ease),
+			transform var(--zn-fast) var(--zn-ease);
+
+		&:focus,
+		&.focus {
+			box-shadow: none;
+		}
+		&:focus-visible {
+			box-shadow: 0 0 0 3px var(--zn-primary-ring);
+			outline: none;
+		}
+	}
+
+	.btn-primary,
+	.btn-primary:not(:disabled):not(.disabled) {
+		background: var(--zn-primary);
+		border: 1px solid var(--zn-primary-hover);
+		color: #fff;
+		box-shadow: 0 1px 1px rgba(15, 23, 42, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.14);
+
+		&:hover,
+		&:focus,
+		&:active,
+		&.active {
+			background: var(--zn-primary-hover);
+			border-color: var(--zn-primary-strong);
+			color: #fff;
+			box-shadow: var(--zn-shadow-brand);
+		}
+
+		svg.icon,
+		svg.es-icon {
+			--icon-stroke: #fff;
+			stroke: #fff;
+		}
+		.es-icon use,
+		.icon use {
+			stroke: #fff;
+		}
+	}
+
+	.btn-default,
+	.btn-secondary {
+		background: var(--btn-default-bg);
+		border: 1px solid var(--zn-border);
+		color: var(--zn-text);
+		box-shadow: var(--zn-shadow-xs);
+
+		&:hover,
+		&:focus,
+		&:active,
+		&.active {
+			background: var(--btn-default-hover-bg);
+			border-color: var(--zn-border-strong);
+			color: var(--zn-heading);
+		}
+	}
+
+	.btn-danger {
+		border-radius: var(--zn-radius);
+	}
+
+	.btn.icon-btn {
+		border-radius: var(--zn-radius);
+	}
+
+	.btn-group > .btn:not(:last-child) {
+		border-top-right-radius: 0;
+		border-bottom-right-radius: 0;
+	}
+	.btn-group > .btn:not(:first-child) {
+		border-top-left-radius: 0;
+		border-bottom-left-radius: 0;
+	}
+
+	.btn-link {
+		color: var(--zn-primary-text);
+	}
+
+	// ---------- inputs ----------
+	.form-control,
+	.frappe-control .form-control,
+	select.form-control,
+	.like-disabled-input,
+	.awesomplete input {
+		border: 1px solid transparent;
+		border-radius: var(--zn-radius);
+		transition: background-color var(--zn-fast) var(--zn-ease), border-color var(--zn-fast) var(--zn-ease),
+			box-shadow var(--zn-fast) var(--zn-ease);
+	}
+
+	.form-control:hover:not(:focus):not([disabled]):not(.bold-placeholder) {
+		border-color: var(--zn-border-strong);
+	}
+
+	.form-control:focus,
+	.frappe-control .form-control:focus {
+		background-color: var(--zn-surface);
+		border-color: color-mix(in srgb, var(--zn-primary) 65%, transparent);
+		box-shadow: 0 0 0 3px var(--zn-primary-ring);
+	}
+
+	.form-control::placeholder {
+		color: color-mix(in srgb, var(--zn-subtle) 80%, transparent);
+	}
+
+	.frappe-control .control-label,
+	.form-group .control-label,
+	.frappe-control label.control-label {
+		color: var(--zn-muted);
+		font-weight: 500;
+	}
+
+	.frappe-control .help-box,
+	.frappe-control .control-help {
+		color: var(--zn-subtle);
+	}
+
+	// checkbox tick in brand color
+	input[type="checkbox"] {
+		border-radius: 5px;
+		&:checked {
+			background-color: var(--zn-primary);
+			border-color: var(--zn-primary);
+		}
+		&:focus-visible {
+			box-shadow: 0 0 0 3px var(--zn-primary-ring);
+		}
+	}
+
+	.switch input:checked + .slider,
+	.form-switch .form-check-input:checked {
+		background-color: var(--zn-primary);
+		border-color: var(--zn-primary);
+	}
+
+	// ---------- pills & badges ----------
+	.indicator-pill,
+	.indicator-pill-right {
+		font-weight: 500;
+		border-radius: 999px;
+		letter-spacing: 0;
+	}
+
+	.badge {
+		border-radius: 999px;
+		font-weight: 600;
+	}
+
+	.indicator-pill.no-indicator-dot::before {
+		display: none;
+	}
+
+	// ---------- links ----------
+	.text-primary {
+		color: var(--zn-primary-text) !important;
+	}
+}

@@ -1,0 +1,169 @@
+// Modals, dropdowns, popovers, toasts, tooltips, awesomplete lists.
+
+html.zn {
+	// ---------- modals ----------
+	.modal-backdrop.show {
+		opacity: 1;
+		background: rgba(15, 23, 42, 0.42);
+		backdrop-filter: blur(4px);
+		-webkit-backdrop-filter: blur(4px);
+	}
+
+	// no overflow:hidden here: Link-field dropdowns near the bottom of a dialog
+	// must be able to extend past it (stock Frappe doesn't clip either), so
+	// the rounded corners are carried by the header and footer instead
+	.modal-content {
+		border: 1px solid var(--zn-hairline);
+		border-radius: var(--zn-radius-xl);
+		box-shadow: var(--zn-shadow-xl);
+	}
+
+	.modal-content > .modal-header {
+		border-top-left-radius: calc(var(--zn-radius-xl) - 1px);
+		border-top-right-radius: calc(var(--zn-radius-xl) - 1px);
+	}
+
+	.modal-content > .modal-footer {
+		border-bottom-left-radius: calc(var(--zn-radius-xl) - 1px);
+		border-bottom-right-radius: calc(var(--zn-radius-xl) - 1px);
+	}
+
+	.modal.fade .modal-dialog {
+		transition: transform var(--zn-base) var(--zn-ease), opacity var(--zn-base) var(--zn-ease);
+	}
+
+	.modal-header {
+		padding: 18px 20px 12px;
+		border-bottom: 0;
+
+		.modal-title {
+			font-size: 17px;
+			font-weight: 650;
+			letter-spacing: -0.015em;
+			color: var(--zn-heading);
+		}
+	}
+
+	.modal-body {
+		padding: 8px 20px 16px;
+	}
+
+	.modal-footer {
+		padding: 12px 20px;
+		border-top: 1px solid var(--zn-border);
+		background: var(--zn-surface-2);
+	}
+
+	// ---------- dropdowns ----------
+	.dropdown-menu {
+		border: 1px solid var(--zn-border);
+		border-radius: 12px;
+		padding: 6px;
+		box-shadow: var(--zn-shadow-lg);
+		background: var(--zn-surface);
+		// opacity only: Popper positions menus with an inline transform
+		animation: zn-fade var(--zn-fast) var(--zn-ease);
+	}
+
+	.dropdown-item {
+		border-radius: 8px;
+		padding: 7px 10px;
+		color: var(--zn-text);
+		font-weight: 450;
+
+		&:hover,
+		&:focus {
+			background: var(--zn-surface-3);
+			color: var(--zn-heading);
+		}
+		&:active,
+		&.active {
+			background: var(--zn-primary-soft);
+			color: var(--zn-primary-text);
+		}
+	}
+
+	.dropdown-divider {
+		margin: 6px -6px;
+		border-color: var(--zn-border);
+	}
+
+	.dropdown-header {
+		color: var(--zn-subtle);
+		font-size: 11px;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.06em;
+	}
+
+	// ---------- awesomplete (link fields etc.) ----------
+	.awesomplete > [role="listbox"] {
+		border: 1px solid var(--zn-border);
+		border-radius: 12px;
+		padding: 6px;
+		box-shadow: var(--zn-shadow-lg);
+		background: var(--zn-surface);
+
+		> li {
+			border-radius: 8px;
+		}
+		> li:hover,
+		> li[aria-selected="true"] {
+			background-color: var(--zn-primary-softer);
+		}
+	}
+
+	// ---------- popovers ----------
+	.popover {
+		border: 1px solid var(--zn-border);
+		border-radius: 12px;
+		box-shadow: var(--zn-shadow-lg);
+	}
+
+	// ---------- tooltips ----------
+	.tooltip-inner {
+		background: #0f172a;
+		color: #f8fafc;
+		border-radius: 8px;
+		padding: 6px 10px;
+		font-size: 12px;
+		font-weight: 500;
+		box-shadow: var(--zn-shadow-md);
+	}
+
+	// ---------- toasts ----------
+	#alert-container .desk-alert {
+		border: 1px solid var(--zn-border);
+		border-radius: 12px;
+		box-shadow: var(--zn-shadow-lg);
+		background: var(--zn-surface);
+		overflow: hidden;
+	}
+
+	// ---------- msgprint / freeze ----------
+	.freeze {
+		background: color-mix(in srgb, var(--zn-app-bg) 70%, transparent);
+		backdrop-filter: blur(3px);
+		-webkit-backdrop-filter: blur(3px);
+	}
+}
+
+@keyframes zn-fade {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+@keyframes zn-pop {
+	from {
+		opacity: 0;
+		transform: translateY(-6px) scale(0.985);
+	}
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}

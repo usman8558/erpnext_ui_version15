@@ -1,0 +1,491 @@
+{
+ "actions": [],
+ "creation": "2026-11-07 18:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "tab_appearance",
+  "section_theme",
+  "enabled",
+  "preset",
+  "primary_color",
+  "accent_color",
+  "column_break_theme",
+  "palette_preview",
+  "section_branding",
+  "brand_name",
+  "show_brand_name",
+  "column_break_branding",
+  "brand_logo",
+  "brand_logo_dark",
+  "tab_layout",
+  "section_sidebar",
+  "enable_sidebar",
+  "sidebar_style",
+  "sidebar_default_state",
+  "column_break_sidebar",
+  "sidebar_hidden_routes",
+  "section_navbar",
+  "navbar_style",
+  "section_workspace",
+  "show_workspace_hero",
+  "welcome_message",
+  "tab_experience",
+  "section_experience",
+  "enable_command_palette",
+  "enable_loading_bar",
+  "tab_motion",
+  "section_motion",
+  "enable_animations",
+  "animation_speed",
+  "column_break_motion",
+  "enable_page_transitions",
+  "page_transition_style",
+  "dialog_animation",
+  "section_entrance",
+  "stagger_workspace",
+  "count_up_numbers",
+  "column_break_entrance",
+  "smooth_theme_switch",
+  "button_ripple",
+  "section_hover",
+  "card_hover",
+  "button_hover",
+  "column_break_hover",
+  "list_row_accent",
+  "sidebar_hover_motion",
+  "section_motion_preview",
+  "motion_playground",
+  "section_ambient",
+  "animated_hero",
+  "tab_login",
+  "section_login",
+  "enable_login_page",
+  "login_headline",
+  "login_subheadline",
+  "login_features",
+  "column_break_login",
+  "login_background"
+ ],
+ "fields": [
+  {
+   "fieldname": "tab_appearance",
+   "fieldtype": "Tab Break",
+   "label": "Appearance"
+  },
+  {
+   "fieldname": "section_theme",
+   "fieldtype": "Section Break",
+   "label": "Theme"
+  },
+  {
+   "default": "1",
+   "description": "Turns the whole theme on or off for every user, without uninstalling the app.",
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "label": "Enable SGS UI"
+  },
+  {
+   "default": "SGS Indigo",
+   "fieldname": "preset",
+   "fieldtype": "Select",
+   "label": "Color Preset",
+   "options": "SGS Indigo\nOcean Blue\nEmerald\nRoyal Purple\nCrimson\nGraphite\nCustom"
+  },
+  {
+   "default": "#4F46E5",
+   "depends_on": "eval:doc.preset==\"Custom\"",
+   "description": "Buttons, links, active states and focus rings.",
+   "fieldname": "primary_color",
+   "fieldtype": "Color",
+   "label": "Primary Color",
+   "mandatory_depends_on": "eval:doc.preset==\"Custom\""
+  },
+  {
+   "default": "#06B6D4",
+   "depends_on": "eval:doc.preset==\"Custom\"",
+   "description": "Second color for gradients and highlights.",
+   "fieldname": "accent_color",
+   "fieldtype": "Color",
+   "label": "Accent Color",
+   "mandatory_depends_on": "eval:doc.preset==\"Custom\""
+  },
+  {
+   "fieldname": "column_break_theme",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "palette_preview",
+   "fieldtype": "HTML",
+   "label": "Preview"
+  },
+  {
+   "fieldname": "section_branding",
+   "fieldtype": "Section Break",
+   "label": "Branding"
+  },
+  {
+   "description": "Shown in the sidebar and on the login page. Leave empty to use the app name from Website Settings.",
+   "fieldname": "brand_name",
+   "fieldtype": "Data",
+   "label": "Brand Name"
+  },
+  {
+   "default": "1",
+   "fieldname": "show_brand_name",
+   "fieldtype": "Check",
+   "label": "Show brand name next to the logo"
+  },
+  {
+   "fieldname": "column_break_branding",
+   "fieldtype": "Column Break"
+  },
+  {
+   "description": "Used on light surfaces. Leave empty to show a monogram tile in the brand colors.",
+   "fieldname": "brand_logo",
+   "fieldtype": "Attach Image",
+   "label": "Logo (light backgrounds)"
+  },
+  {
+   "description": "Used on the dark sidebar and in dark mode. Falls back to the light logo.",
+   "fieldname": "brand_logo_dark",
+   "fieldtype": "Attach Image",
+   "label": "Logo (dark backgrounds)"
+  },
+  {
+   "fieldname": "tab_layout",
+   "fieldtype": "Tab Break",
+   "label": "Layout"
+  },
+  {
+   "fieldname": "section_sidebar",
+   "fieldtype": "Section Break",
+   "label": "Global Sidebar"
+  },
+  {
+   "default": "1",
+   "description": "A persistent sidebar with all workspaces on every Desk page.",
+   "fieldname": "enable_sidebar",
+   "fieldtype": "Check",
+   "label": "Show global sidebar"
+  },
+  {
+   "default": "Dark",
+   "depends_on": "enable_sidebar",
+   "fieldname": "sidebar_style",
+   "fieldtype": "Select",
+   "label": "Sidebar Style",
+   "options": "Dark\nLight\nBrand"
+  },
+  {
+   "default": "Expanded",
+   "depends_on": "enable_sidebar",
+   "description": "Users can still collapse or expand it; their choice is remembered in their browser.",
+   "fieldname": "sidebar_default_state",
+   "fieldtype": "Select",
+   "label": "Default State",
+   "options": "Expanded\nCollapsed"
+  },
+  {
+   "fieldname": "column_break_sidebar",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "point-of-sale\nposapp\nprint\nsetup-wizard",
+   "depends_on": "enable_sidebar",
+   "description": "One route per line: the first part of the URL after /app/, e.g. point-of-sale. Full-screen pages work best without the sidebar.",
+   "fieldname": "sidebar_hidden_routes",
+   "fieldtype": "Small Text",
+   "label": "Hide Sidebar On"
+  },
+  {
+   "fieldname": "section_navbar",
+   "fieldtype": "Section Break",
+   "label": "Navbar"
+  },
+  {
+   "default": "Glass",
+   "description": "Glass is translucent white with a blur. Brand uses the theme gradient.",
+   "fieldname": "navbar_style",
+   "fieldtype": "Select",
+   "label": "Navbar Style",
+   "options": "Glass\nSolid\nBrand"
+  },
+  {
+   "fieldname": "section_workspace",
+   "fieldtype": "Section Break",
+   "label": "Workspace"
+  },
+  {
+   "default": "1",
+   "fieldname": "show_workspace_hero",
+   "fieldtype": "Check",
+   "label": "Show greeting header on workspaces"
+  },
+  {
+   "depends_on": "show_workspace_hero",
+   "description": "Optional line under the greeting. You can use {first_name} and {company}.",
+   "fieldname": "welcome_message",
+   "fieldtype": "Data",
+   "label": "Welcome Message"
+  },
+  {
+   "fieldname": "tab_experience",
+   "fieldtype": "Tab Break",
+   "label": "Experience"
+  },
+  {
+   "fieldname": "section_experience",
+   "fieldtype": "Section Break",
+   "label": "Interactions"
+  },
+  {
+   "default": "1",
+   "description": "Ctrl + K (⌘ + K on Mac), Ctrl + G or a click on the search bar opens a spotlight search with every Awesomebar feature.",
+   "fieldname": "enable_command_palette",
+   "fieldtype": "Check",
+   "label": "Command palette"
+  },
+  {
+   "default": "1",
+   "description": "A slim progress bar at the top while pages and data load.",
+   "fieldname": "enable_loading_bar",
+   "fieldtype": "Check",
+   "label": "Loading bar"
+  },
+  {
+   "fieldname": "tab_motion",
+   "fieldtype": "Tab Break",
+   "label": "Motion & Effects"
+  },
+  {
+   "description": "Users whose operating system asks for reduced motion never see animations, whatever is set here.",
+   "fieldname": "section_motion",
+   "fieldtype": "Section Break",
+   "label": "Animations"
+  },
+  {
+   "default": "1",
+   "description": "Master switch for every animation, transition and hover effect on this tab.",
+   "fieldname": "enable_animations",
+   "fieldtype": "Check",
+   "label": "Enable animations"
+  },
+  {
+   "default": "Normal",
+   "depends_on": "enable_animations",
+   "description": "Scales the duration of every transition and animation.",
+   "fieldname": "animation_speed",
+   "fieldtype": "Select",
+   "label": "Animation Speed",
+   "options": "Fast\nNormal\nRelaxed"
+  },
+  {
+   "fieldname": "column_break_motion",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1",
+   "depends_on": "enable_animations",
+   "description": "A short animation when a page opens.",
+   "fieldname": "enable_page_transitions",
+   "fieldtype": "Check",
+   "label": "Page transitions"
+  },
+  {
+   "default": "Fade & Slide",
+   "depends_on": "eval:doc.enable_animations && doc.enable_page_transitions",
+   "fieldname": "page_transition_style",
+   "fieldtype": "Select",
+   "label": "Page Transition Style",
+   "options": "Fade & Slide\nFade\nZoom"
+  },
+  {
+   "default": "Pop",
+   "depends_on": "enable_animations",
+   "description": "How dialogs such as quick entry appear.",
+   "fieldname": "dialog_animation",
+   "fieldtype": "Select",
+   "label": "Dialog Animation",
+   "options": "Pop\nSlide\nNone"
+  },
+  {
+   "depends_on": "enable_animations",
+   "fieldname": "section_entrance",
+   "fieldtype": "Section Break",
+   "label": "Entrance & Feedback"
+  },
+  {
+   "default": "1",
+   "description": "Workspace cards fade in one after another when a workspace opens.",
+   "fieldname": "stagger_workspace",
+   "fieldtype": "Check",
+   "label": "Animate workspace cards"
+  },
+  {
+   "default": "1",
+   "description": "Number cards count up to their value when they load.",
+   "fieldname": "count_up_numbers",
+   "fieldtype": "Check",
+   "label": "Count-up numbers"
+  },
+  {
+   "fieldname": "column_break_entrance",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1",
+   "description": "Light and dark mode cross-fade instead of switching instantly.",
+   "fieldname": "smooth_theme_switch",
+   "fieldtype": "Check",
+   "label": "Smooth theme switch"
+  },
+  {
+   "default": "1",
+   "description": "A soft ripple spreads from the click point on buttons.",
+   "fieldname": "button_ripple",
+   "fieldtype": "Check",
+   "label": "Button ripple"
+  },
+  {
+   "depends_on": "enable_animations",
+   "fieldname": "section_hover",
+   "fieldtype": "Section Break",
+   "label": "Hover Effects"
+  },
+  {
+   "default": "Lift",
+   "description": "Lift raises shortcut tiles and cards slightly; Glow adds a brand-colored halo instead. Cards that contain menus never lift.",
+   "fieldname": "card_hover",
+   "fieldtype": "Select",
+   "label": "Card Hover",
+   "options": "Lift\nGlow\nNone"
+  },
+  {
+   "default": "1",
+   "description": "Buttons rise slightly with a soft brand shadow, and press in when clicked.",
+   "fieldname": "button_hover",
+   "fieldtype": "Check",
+   "label": "Button hover"
+  },
+  {
+   "fieldname": "column_break_hover",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1",
+   "description": "A brand-colored bar slides in beside the list row under the mouse.",
+   "fieldname": "list_row_accent",
+   "fieldtype": "Check",
+   "label": "List row accent"
+  },
+  {
+   "default": "1",
+   "description": "Sidebar icons and labels nudge right on hover.",
+   "fieldname": "sidebar_hover_motion",
+   "fieldtype": "Check",
+   "label": "Sidebar hover motion"
+  },
+  {
+   "depends_on": "enable_animations",
+   "description": "Hover and click these samples while you change the settings above.",
+   "fieldname": "section_motion_preview",
+   "fieldtype": "Section Break",
+   "label": "Try It"
+  },
+  {
+   "fieldname": "motion_playground",
+   "fieldtype": "HTML",
+   "label": "Motion Playground"
+  },
+  {
+   "collapsible": 1,
+   "depends_on": "enable_animations",
+   "fieldname": "section_ambient",
+   "fieldtype": "Section Break",
+   "label": "Ambient"
+  },
+  {
+   "default": "0",
+   "description": "A slow-moving glow behind the workspace greeting. Off by default because it keeps the graphics chip busy while a workspace is open, which matters on slower PCs and remote desktops.",
+   "fieldname": "animated_hero",
+   "fieldtype": "Check",
+   "label": "Animated workspace header"
+  },
+  {
+   "fieldname": "tab_login",
+   "fieldtype": "Tab Break",
+   "label": "Login Page"
+  },
+  {
+   "fieldname": "section_login",
+   "fieldtype": "Section Break",
+   "label": "Login Page"
+  },
+  {
+   "default": "1",
+   "description": "Split-screen login with a brand panel. Turn off to return to the standard login page.",
+   "fieldname": "enable_login_page",
+   "fieldtype": "Check",
+   "label": "Use SGS login page"
+  },
+  {
+   "default": "Run your entire business on one intelligent platform",
+   "depends_on": "enable_login_page",
+   "fieldname": "login_headline",
+   "fieldtype": "Data",
+   "label": "Headline"
+  },
+  {
+   "default": "Finance, sales, supply chain, people and projects, connected in real time.",
+   "depends_on": "enable_login_page",
+   "fieldname": "login_subheadline",
+   "fieldtype": "Small Text",
+   "label": "Sub-headline"
+  },
+  {
+   "default": "Finance, sales, inventory and people in one connected system\nReal-time dashboards and reports for every team\nRole-based access with a complete audit trail",
+   "depends_on": "enable_login_page",
+   "description": "One feature per line. Up to four are shown.",
+   "fieldname": "login_features",
+   "fieldtype": "Small Text",
+   "label": "Feature Highlights"
+  },
+  {
+   "fieldname": "column_break_login",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "enable_login_page",
+   "description": "Optional image behind the brand panel. Leave empty for the animated brand gradient.",
+   "fieldname": "login_background",
+   "fieldtype": "Attach Image",
+   "label": "Brand Panel Image"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "issingle": 1,
+ "links": [],
+ "make_attachments_public": 1,
+ "modified": "2026-11-08 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "SGS UI",
+ "name": "SGS Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

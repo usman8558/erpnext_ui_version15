@@ -1,0 +1,219 @@
+// List view, list sidebar, filters, paging, report view (datatable).
+
+html.zn {
+	// main list card
+	.frappe-list,
+	.layout-main-section.frappe-card {
+		border-radius: var(--zn-radius-lg);
+	}
+
+	[data-page-route^="List/"] .layout-main-section.frappe-card,
+	[data-page-route^="List/"] .layout-main-section {
+		border: 1px solid var(--zn-border);
+		box-shadow: var(--zn-shadow-card);
+		background: var(--zn-surface);
+		overflow: visible;
+	}
+
+	// standard filters row
+	.page-form {
+		gap: 0;
+		padding: 12px 14px 4px;
+		border-bottom: 1px solid var(--zn-border);
+
+		.form-control:not(textarea):not([type="checkbox"]),
+		.frappe-control input:not([type="checkbox"]):not([type="radio"]),
+		.frappe-control select {
+			height: 32px;
+		}
+	}
+
+	.filter-section .filter-button,
+	.filter-section .btn,
+	.sort-selector .btn {
+		height: 32px;
+		border-radius: 9px;
+	}
+
+	.filter-section .filter-button.btn-primary-light,
+	.filter-x-button {
+		color: var(--zn-primary-text);
+	}
+
+	.filter-button.btn-primary-light {
+		background: var(--zn-primary-soft);
+		border-color: var(--zn-primary-border);
+		color: var(--zn-primary-text);
+	}
+
+	// header row
+	.list-row-head {
+		background: var(--zn-surface-2);
+		border: 1px solid var(--zn-border);
+		border-radius: 10px;
+		color: var(--zn-subtle);
+		font-size: 12px;
+		font-weight: 600;
+		letter-spacing: 0.01em;
+		min-height: 40px;
+
+		.list-row-col,
+		.list-subject {
+			color: var(--zn-muted);
+		}
+	}
+
+	// rows
+	.list-row-container {
+		border-bottom: 1px solid var(--zn-hairline);
+		transition: background-color var(--zn-fast) var(--zn-ease);
+	}
+
+	.list-row {
+		border-radius: 8px;
+		transition: background-color var(--zn-fast) var(--zn-ease);
+
+		&:hover,
+		&.zn-hover {
+			background-color: var(--zn-primary-softer);
+		}
+
+		.list-subject a,
+		.list-row-col a {
+			color: var(--zn-text);
+		}
+
+		.list-subject .bold a,
+		.list-subject.bold a {
+			color: var(--zn-heading);
+		}
+
+		.list-row-activity {
+			color: var(--zn-subtle);
+		}
+	}
+
+	// .zn-checked is toggled by js/desk/perf_safe.js (a :has() selector here
+	// made every style recalc scan the whole list)
+	.list-row-container.zn-checked .list-row {
+		background-color: var(--zn-primary-soft);
+	}
+
+	.list-row-checkbox,
+	.list-check-all {
+		cursor: pointer;
+	}
+
+	// paging
+	.list-paging-area {
+		padding: 12px 14px;
+		border-top: 1px solid var(--zn-border);
+
+		.btn-group .btn {
+			height: 30px;
+		}
+		.btn-paging.btn-info,
+		.btn-group .btn.btn-info {
+			background: var(--zn-primary-soft);
+			border-color: var(--zn-primary-border);
+			color: var(--zn-primary-text);
+		}
+	}
+
+	.list-count {
+		color: var(--zn-subtle);
+		font-weight: 500;
+	}
+
+	// empty state
+	.frappe-list .no-result {
+		padding: 56px 16px;
+
+		img {
+			opacity: 0.85;
+		}
+	}
+
+	// ---------- list sidebar ----------
+	.list-sidebar {
+		.sidebar-section,
+		.list-group-by {
+			margin-bottom: 18px;
+		}
+
+		.group-by-dropdown .dropdown-toggle,
+		.list-sidebar-button {
+			height: 32px;
+			border-radius: 9px;
+			background: var(--zn-surface);
+			border: 1px solid var(--zn-border);
+			color: var(--zn-text);
+			&:hover {
+				border-color: var(--zn-border-strong);
+			}
+		}
+
+		.list-link a,
+		.sidebar-action a,
+		.sidebar-action button {
+			color: var(--zn-muted);
+		}
+	}
+
+	// ---------- datatable (report view, query reports, child grids in reports) ----------
+	.datatable {
+		--dt-border-color: var(--zn-border);
+		--dt-light-bg: var(--zn-surface-2);
+		--dt-selection-highlight-color: var(--zn-primary-softer);
+		--dt-cell-bg: var(--zn-surface);
+		--dt-focus-border-width: 2px;
+		--dt-primary-color: var(--zn-primary);
+
+		.dt-header .dt-cell--header,
+		.dt-cell--header {
+			background: var(--zn-surface-2);
+			color: var(--zn-muted);
+			font-weight: 600;
+		}
+
+		.dt-row:hover .dt-cell {
+			background-color: var(--zn-primary-softer);
+		}
+	}
+
+	.report-wrapper,
+	.report-view-wrapper {
+		border-radius: var(--zn-radius-lg);
+	}
+
+	.report-summary {
+		border: 1px solid var(--zn-border);
+		background: var(--zn-surface);
+		box-shadow: var(--zn-shadow-card);
+		padding: 14px 6px;
+
+		.summary-item {
+			.summary-label {
+				color: var(--zn-subtle);
+				font-weight: 500;
+			}
+			.summary-value {
+				font-weight: 700;
+				letter-spacing: -0.02em;
+				font-variant-numeric: tabular-nums;
+			}
+		}
+	}
+
+	// ---------- kanban / dashboard view cards ----------
+	.kanban-card,
+	.kanban-column .kanban-card-wrapper .kanban-card {
+		border-radius: 12px;
+		border: 1px solid var(--zn-border);
+		box-shadow: var(--zn-shadow-xs);
+		transition: box-shadow var(--zn-fast), transform var(--zn-fast);
+		&:hover {
+			box-shadow: var(--zn-shadow-md);
+		}
+	}
+}

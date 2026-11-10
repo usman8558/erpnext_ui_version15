@@ -1,0 +1,99 @@
+// Page chrome shared by every view: page head, layout columns, side sections.
+
+html.zn {
+	// solid (not blurred): the sticky header repaints on every scroll frame,
+	// and one blurred bar (the navbar) is enough for the glass look
+	.page-head {
+		background: var(--zn-app-bg);
+		border-bottom: 1px solid transparent;
+		transition: border-color var(--zn-base) var(--zn-ease), box-shadow var(--zn-base) var(--zn-ease);
+
+		.page-head-content {
+			min-height: var(--page-head-height);
+		}
+
+		.page-title .title-text,
+		.title-text {
+			font-size: 21px;
+			font-weight: 680;
+			letter-spacing: -0.022em;
+			color: var(--zn-heading);
+		}
+
+		.page-title .indicator-pill {
+			margin-left: 10px;
+		}
+
+		.sub-heading {
+			color: var(--zn-subtle);
+		}
+
+		.page-actions {
+			gap: 8px;
+			.btn {
+				height: 32px;
+			}
+			.standard-actions {
+				gap: 8px;
+			}
+		}
+
+		.sidebar-toggle-btn {
+			border-radius: 8px;
+			width: 32px;
+			height: 32px;
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			margin-right: 6px;
+			&:hover {
+				background: var(--zn-surface-3);
+			}
+		}
+	}
+
+	&.zn-scrolled .page-head {
+		border-bottom-color: var(--zn-border);
+		box-shadow: 0 8px 18px -16px rgba(15, 23, 42, 0.25);
+	}
+
+	// main content card used by list, report, form and others
+	.layout-main-section-wrapper .layout-main-section {
+		border-radius: var(--zn-radius-lg);
+	}
+
+	.layout-side-section {
+		.sidebar-label {
+			font-size: 11px;
+			font-weight: 650;
+			letter-spacing: 0.06em;
+			text-transform: uppercase;
+			color: var(--zn-subtle);
+		}
+
+		.list-sidebar-button,
+		.sidebar-menu .btn-default,
+		.group-by-dropdown .btn {
+			border-radius: 9px;
+		}
+	}
+
+	// "frappe-card" surfaces
+	.frappe-card,
+	.widget.dashboard-widget-box,
+	.report-summary,
+	.form-dashboard-section .section-body {
+		border-radius: var(--zn-radius-lg);
+	}
+
+	.frappe-card {
+		border: 1px solid var(--zn-border);
+		box-shadow: var(--zn-shadow-card);
+	}
+
+	// empty states
+	.no-result,
+	.msg-box {
+		color: var(--zn-subtle);
+	}
+}

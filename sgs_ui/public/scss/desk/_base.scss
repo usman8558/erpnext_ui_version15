@@ -1,0 +1,127 @@
+// Global foundations: canvas, type, focus, selection, scrollbars.
+
+html.zn {
+	body {
+		background-color: var(--zn-app-bg);
+		color: var(--zn-text);
+		font-feature-settings: "cv11" 1, "ss01" 1;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+		text-rendering: optimizeLegibility;
+	}
+
+	::selection {
+		background: color-mix(in srgb, var(--zn-primary) 22%, transparent);
+	}
+
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		color: var(--zn-heading);
+		letter-spacing: -0.011em;
+	}
+
+	a {
+		transition: color var(--zn-fast) var(--zn-ease);
+	}
+
+	// Keyboard focus is always visible, mouse focus stays quiet.
+	:focus-visible {
+		outline: 2px solid color-mix(in srgb, var(--zn-primary) 70%, transparent);
+		outline-offset: 2px;
+	}
+	.form-control:focus-visible,
+	input:focus-visible,
+	textarea:focus-visible,
+	select:focus-visible {
+		outline: none;
+	}
+
+	// tabular figures wherever numbers are compared
+	.number,
+	.text-right,
+	.dt-cell--col-number,
+	.list-row-col.text-right,
+	.indicator-pill,
+	.grid-static-col[data-fieldtype="Currency"],
+	.grid-static-col[data-fieldtype="Float"],
+	.grid-static-col[data-fieldtype="Int"] {
+		font-variant-numeric: tabular-nums;
+	}
+
+	// thin, quiet scrollbars (Chromium/Safari via ::-webkit-scrollbar).
+	// No universal `*` rule here: measured, it multiplied style-recalc cost
+	// across Frappe's large DOM. Firefox gets the root-level fallback below.
+	::-webkit-scrollbar {
+		width: 10px;
+		height: 10px;
+	}
+	::-webkit-scrollbar-track {
+		background: transparent;
+	}
+	::-webkit-scrollbar-thumb {
+		background-color: color-mix(in srgb, var(--zn-subtle) 40%, transparent);
+		border-radius: 999px;
+		border: 3px solid transparent;
+		background-clip: content-box;
+	}
+	::-webkit-scrollbar-thumb:hover {
+		background-color: color-mix(in srgb, var(--zn-subtle) 65%, transparent);
+	}
+
+	// splash screen on first load
+	.splash {
+		background: var(--zn-app-bg);
+		img {
+			animation: zn-pulse 1.4s var(--zn-ease) infinite;
+		}
+	}
+
+	hr {
+		border-color: var(--zn-border);
+	}
+
+	.text-muted {
+		color: var(--zn-muted) !important;
+	}
+
+	kbd,
+	.zn-kbd {
+		display: inline-flex;
+		align-items: center;
+		gap: 2px;
+		min-width: 20px;
+		height: 20px;
+		padding: 0 6px;
+		border-radius: 6px;
+		border: 1px solid var(--zn-border);
+		border-bottom-width: 2px;
+		background: var(--zn-surface);
+		color: var(--zn-subtle);
+		font: 600 11px/1 var(--font-stack);
+		box-shadow: none;
+	}
+}
+
+// Firefox: scrollbar-color is inherited, so setting it on <html> is enough
+@supports not selector(::-webkit-scrollbar) {
+	html.zn {
+		scrollbar-width: thin;
+		scrollbar-color: color-mix(in srgb, var(--zn-subtle) 45%, transparent) transparent;
+	}
+}
+
+@keyframes zn-pulse {
+	0%,
+	100% {
+		opacity: 1;
+		transform: scale(1);
+	}
+	50% {
+		opacity: 0.6;
+		transform: scale(0.96);
+	}
+}

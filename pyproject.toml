@@ -1,5 +1,5 @@
 [project]
-name = "zenith_ui"
+name = "sgs_ui"
 authors = [
     { name = "TechAccuracy", email = "usman@techaccuracy.com"}
 ]

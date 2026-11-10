@@ -1,0 +1,35 @@
+// SGS UI: Desk theme bundle.
+// Every rule is scoped under html.zn (added by sgs_desk.bundle.js from the
+// boot payload). The stock UI returns as soon as the class is gone or the app
+// is uninstalled.
+
+@import "./desk/tokens";
+@import "./desk/base";
+@import "./desk/controls";
+@import "./desk/overlays";
+@import "./desk/shell";
+@import "./desk/navbar";
+@import "./desk/page";
+@import "./desk/workspace";
+@import "./desk/list";
+@import "./desk/form";
+@import "./desk/palette";
+@import "./desk/motion";
+@import "./desk/effects";
+
+// Master switch off (SGS Settings > Enabled, or a live preview of it):
+// every element SGS adds disappears and the stock UI is untouched.
+html:not(.zn) {
+	.zn-sidebar,
+	.zn-sb-backdrop,
+	.zn-palette,
+	.zn-hero,
+	.zn-progress,
+	.zn-tile,
+	.zn-user-card,
+	.zn-theme-item,
+	.zn-burger,
+	.zn-search-kbd {
+		display: none !important;
+	}
+}

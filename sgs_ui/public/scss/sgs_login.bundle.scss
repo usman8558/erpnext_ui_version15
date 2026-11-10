@@ -1,0 +1,538 @@
+// SGS UI: login page.
+// Loaded on all website pages via web_include_css, but every rule is gated by
+// html.zn-login, which update_website_context adds only on /login (and only
+// when "Use SGS login page" is on). Selectors are deliberately specific
+// enough to override the site's own Website Settings head_html styling.
+
+$zn-lg: 992px;
+
+html.zn-login {
+	--zn-primary: #4f46e5;
+	--zn-accent: #06b6d4;
+	--zn-primary-hover: color-mix(in srgb, var(--zn-primary) 86%, #000);
+	--zn-primary-ring: color-mix(in srgb, var(--zn-primary) 26%, transparent);
+	--zn-ink: #0f172a;
+	--zn-text: #1e293b;
+	--zn-muted: #475569;
+	--zn-subtle: #64748b;
+	--zn-border: #e2e8f0;
+	--zn-panel-w: 50vw;
+
+	body[data-path="login"] {
+		min-height: 100vh;
+		background: #f5f7fb !important;
+		background-image: radial-gradient(60% 50% at 100% 0%, color-mix(in srgb, var(--zn-primary) 7%, transparent) 0%, transparent 70%) !important;
+		color: var(--zn-text);
+		font-feature-settings: "cv11" 1, "ss01" 1;
+		-webkit-font-smoothing: antialiased;
+
+		> .navbar,
+		.navbar.navbar-light.navbar-expand-lg,
+		.web-footer,
+		footer.web-footer {
+			display: none !important;
+		}
+
+		.page-content-wrapper,
+		main,
+		.page_content {
+			background: transparent !important;
+		}
+
+		@media (min-width: $zn-lg) {
+			padding-left: var(--zn-panel-w);
+
+			.page-content-wrapper {
+				min-height: 100vh;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				padding: 40px 24px;
+			}
+			main {
+				width: 100%;
+				margin: 0 !important;
+			}
+		}
+	}
+
+	// ---------- custom login templates from other apps ----------
+	// (non_profit_mas ships its own login.html + login.css with a 470px offset,
+	// a photo background and a "welcome" block; neutralise while SGS is on)
+	body[data-path="login"] {
+		.background-login,
+		.welcome-sec {
+			display: none !important;
+		}
+
+		.big-container {
+			display: block !important;
+			min-height: 0 !important;
+			padding: 0 !important;
+			background: none !important;
+		}
+
+		.page-content-wrapper {
+			background-image: none !important;
+			height: auto !important;
+		}
+
+		.login-content.page-card {
+			width: 100% !important;
+			max-width: none !important;
+		}
+
+		.input-title p,
+		.input-title {
+			font-size: 13px;
+			font-weight: 600;
+			color: var(--zn-text);
+			margin-bottom: 6px;
+		}
+	}
+
+	// ---------- brand panel ----------
+	.zn-login-brand {
+		position: relative;
+		// the website body is a flex column: without this the band collapses on mobile
+		flex: none;
+		overflow: hidden;
+		color: #fff;
+		isolation: isolate;
+		background: radial-gradient(70% 60% at 85% 10%, color-mix(in srgb, var(--zn-accent) 70%, transparent) 0%, transparent 60%),
+			radial-gradient(60% 55% at 10% 90%, color-mix(in srgb, var(--zn-primary) 85%, #fff 10%) 0%, transparent 65%),
+			linear-gradient(150deg, color-mix(in srgb, var(--zn-primary) 70%, #020617) 0%, var(--zn-primary) 55%, color-mix(in srgb, var(--zn-accent) 70%, var(--zn-primary)) 100%);
+		// static mesh: animating background-position repaints half the screen
+		// every frame; the floating orbs (transform only) carry the motion
+		background-size: 140% 140%, 140% 140%, 100% 100%;
+		background-position: 20% 15%, 80% 85%, 0 0;
+
+		@media (min-width: $zn-lg) {
+			position: fixed;
+			top: 0;
+			bottom: 0;
+			left: 0;
+			width: var(--zn-panel-w);
+			display: flex;
+			flex-direction: column;
+			padding: 44px 56px;
+		}
+
+		@media (max-width: $zn-lg - 1) {
+			padding: 22px 22px 26px;
+		}
+
+		&.has-image {
+			background-size: cover;
+			background-position: center;
+			&::after {
+				content: "";
+				position: absolute;
+				inset: 0;
+				z-index: -1;
+				background: linear-gradient(160deg, color-mix(in srgb, var(--zn-primary) 82%, transparent), rgba(2, 6, 23, 0.82));
+			}
+		}
+
+		// grid texture
+		&::before {
+			content: "";
+			position: absolute;
+			inset: 0;
+			z-index: -1;
+			background-image: linear-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px),
+				linear-gradient(90deg, rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+			background-size: 36px 36px;
+			mask-image: radial-gradient(75% 70% at 50% 40%, #000 0%, transparent 80%);
+			-webkit-mask-image: radial-gradient(75% 70% at 50% 40%, #000 0%, transparent 80%);
+		}
+	}
+
+	.zn-login-orb {
+		position: absolute;
+		z-index: -1;
+		border-radius: 50%;
+		background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0) 65%);
+		animation: zn-login-float 16s ease-in-out infinite alternate;
+		will-change: transform;
+
+		&.o1 {
+			width: 380px;
+			height: 380px;
+			right: -120px;
+			top: -120px;
+		}
+		&.o2 {
+			width: 260px;
+			height: 260px;
+			left: -90px;
+			bottom: 12%;
+			animation-duration: 21s;
+			opacity: 0.7;
+		}
+		@media (max-width: $zn-lg - 1) {
+			display: none;
+		}
+	}
+
+	.zn-login-logo {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		font-size: 19px;
+		font-weight: 700;
+		letter-spacing: -0.02em;
+
+		img {
+			height: 40px;
+			max-width: 180px;
+			object-fit: contain;
+			border-radius: 10px;
+			background: #fff;
+			padding: 6px;
+		}
+		.zn-login-mono {
+			width: 42px;
+			height: 42px;
+			border-radius: 12px;
+			display: grid;
+			place-items: center;
+			font-size: 19px;
+			font-weight: 750;
+			color: var(--zn-primary);
+			background: #fff;
+			box-shadow: 0 10px 24px -10px rgba(2, 6, 23, 0.55);
+		}
+	}
+
+	.zn-login-copy {
+		margin-top: auto;
+		margin-bottom: auto;
+		max-width: 520px;
+
+		@media (max-width: $zn-lg - 1) {
+			margin-top: 18px;
+		}
+	}
+
+	.zn-login-badge {
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+		height: 30px;
+		padding: 0 12px;
+		border-radius: 999px;
+		font-size: 12.5px;
+		font-weight: 600;
+		background: rgba(255, 255, 255, 0.14);
+		border: 1px solid rgba(255, 255, 255, 0.22);
+		backdrop-filter: blur(6px);
+		margin-bottom: 18px;
+
+		i {
+			width: 7px;
+			height: 7px;
+			border-radius: 50%;
+			background: #4ade80;
+			box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.25);
+		}
+		@media (max-width: $zn-lg - 1) {
+			display: none;
+		}
+	}
+
+	.zn-login-headline {
+		font-size: clamp(26px, 3.1vw, 44px);
+		line-height: 1.08;
+		font-weight: 760;
+		letter-spacing: -0.035em;
+		margin: 0;
+		color: #fff;
+
+		@media (max-width: $zn-lg - 1) {
+			font-size: 22px;
+		}
+	}
+
+	.zn-login-sub {
+		margin-top: 16px;
+		font-size: 16px;
+		line-height: 1.55;
+		color: rgba(255, 255, 255, 0.82);
+		@media (max-width: $zn-lg - 1) {
+			font-size: 14px;
+			margin-top: 8px;
+		}
+	}
+
+	.zn-login-features {
+		list-style: none;
+		margin: 28px 0 0;
+		padding: 0;
+		display: grid;
+		gap: 12px;
+
+		li {
+			display: flex;
+			align-items: flex-start;
+			gap: 12px;
+			font-size: 14.5px;
+			color: rgba(255, 255, 255, 0.92);
+		}
+		svg {
+			flex: none;
+			width: 22px;
+			height: 22px;
+			padding: 4px;
+			border-radius: 7px;
+			background: rgba(255, 255, 255, 0.16);
+			stroke: #fff;
+		}
+		@media (max-width: $zn-lg - 1) {
+			display: none;
+		}
+	}
+
+	.zn-login-foot {
+		font-size: 12.5px;
+		color: rgba(255, 255, 255, 0.6);
+		@media (max-width: $zn-lg - 1) {
+			display: none;
+		}
+	}
+
+	// ---------- the form card ----------
+	body[data-path="login"] {
+		section.for-login,
+		section.for-forgot,
+		section.for-signup,
+		section.for-login-with-email-link,
+		section.for-email-login {
+			margin: 0 auto !important;
+			max-width: 420px;
+			width: 100%;
+			padding: 0;
+		}
+
+		.page-card-head {
+			text-align: left;
+			padding: 0 4px;
+			margin-bottom: 18px;
+
+			.app-logo {
+				display: none;
+			}
+
+			h4 {
+				color: var(--zn-ink) !important;
+				font-size: 26px;
+				font-weight: 720;
+				letter-spacing: -0.03em;
+				margin: 0;
+			}
+
+			.zn-login-hello {
+				margin-top: 6px;
+				color: var(--zn-subtle);
+				font-size: 14.5px;
+			}
+		}
+
+		.page-card,
+		.login-content.page-card {
+			max-width: none;
+			margin: 0;
+			padding: 28px;
+			background: #fff;
+			border: 1px solid var(--zn-border);
+			border-radius: 20px;
+			box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 24px 48px -20px rgba(15, 23, 42, 0.18) !important;
+		}
+
+		.form-group {
+			margin-bottom: 14px;
+		}
+
+		.form-control {
+			height: 46px;
+			border-radius: 11px;
+			border: 1px solid var(--zn-border);
+			background: #fff !important;
+			font-size: 14.5px;
+			color: var(--zn-ink);
+			box-shadow: none;
+			transition: border-color 140ms, box-shadow 140ms;
+
+			&:hover {
+				border-color: #cbd5e1;
+			}
+			&:focus {
+				border-color: color-mix(in srgb, var(--zn-primary) 65%, transparent);
+				box-shadow: 0 0 0 4px var(--zn-primary-ring);
+			}
+		}
+
+		.email-field .form-control,
+		.password-field .form-control {
+			padding-left: 14px;
+		}
+		// room for the field icon only where the template actually has one
+		.email-field.zn-has-icon .form-control,
+		.password-field.zn-has-icon .form-control {
+			padding-left: 40px;
+		}
+		.password-field .form-control {
+			padding-right: 64px;
+		}
+
+		.field-icon {
+			left: 14px;
+			top: 15px;
+			stroke: var(--zn-subtle);
+		}
+
+		.toggle-password {
+			top: 13px;
+			right: 14px;
+			font-size: 12.5px;
+			font-weight: 600;
+			color: var(--zn-primary) !important;
+		}
+
+		.forgot-password-message {
+			text-align: right;
+			margin: -2px 0 6px;
+			a {
+				font-size: 13px;
+				font-weight: 600;
+				color: var(--zn-primary);
+			}
+		}
+
+		.page-card-actions {
+			margin-top: 18px;
+		}
+
+		.btn-login,
+		button.btn.btn-sm.btn-primary.btn-block.btn-login {
+			height: 46px;
+			border-radius: 11px;
+			font-size: 15px;
+			font-weight: 650;
+			border: 0;
+			color: #fff;
+			background: linear-gradient(135deg, var(--zn-primary) 0%, color-mix(in srgb, var(--zn-primary) 70%, var(--zn-accent)) 100%) !important;
+			background-image: linear-gradient(135deg, var(--zn-primary) 0%, color-mix(in srgb, var(--zn-primary) 70%, var(--zn-accent)) 100%) !important;
+			box-shadow: 0 10px 22px -10px color-mix(in srgb, var(--zn-primary) 80%, transparent);
+			transition: transform 140ms, box-shadow 140ms, filter 140ms;
+
+			&:hover {
+				filter: brightness(1.05);
+				transform: translateY(-1px);
+				box-shadow: 0 14px 26px -12px color-mix(in srgb, var(--zn-primary) 85%, transparent);
+			}
+			&:active {
+				transform: none;
+			}
+		}
+
+		.login-divider {
+			color: var(--zn-subtle);
+			font-size: 12.5px;
+			margin: 16px 0 12px;
+		}
+
+		.btn-login-option,
+		a.btn.btn-block.btn-default.btn-sm.btn-login-option.btn-login-with-email-link {
+			height: 44px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: 8px;
+			border-radius: 11px;
+			font-size: 14px;
+			font-weight: 600;
+			background: #fff !important;
+			background-color: #fff !important;
+			color: var(--zn-text) !important;
+			border: 1px solid var(--zn-border);
+			box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05);
+
+			&:hover {
+				border-color: #cbd5e1;
+				background: #f8fafc !important;
+				background-color: #f8fafc !important;
+			}
+		}
+
+		.sign-up-message,
+		.text-center.sign-up-message {
+			margin-top: 16px;
+			color: var(--zn-subtle);
+			a {
+				color: var(--zn-primary);
+				font-weight: 600;
+			}
+		}
+
+		.zn-login-legal {
+			margin-top: 18px;
+			text-align: center;
+			font-size: 12px;
+			color: var(--zn-subtle);
+		}
+
+		@media (max-width: $zn-lg - 1) {
+			.page-content-wrapper {
+				padding: 22px 16px 32px;
+			}
+			main {
+				margin-top: 0 !important;
+			}
+			.page-card,
+			.login-content.page-card {
+				padding: 22px;
+			}
+		}
+	}
+}
+
+html.zn-login button.btn.btn-sm.btn-primary.btn-block.btn-login,
+html.zn-login a.btn.btn-block.btn-default.btn-sm.btn-login-option.btn-login-with-email-link {
+	// beat Website Settings head_html (!important on long selectors)
+	background-image: none;
+}
+
+html.zn-login button.btn.btn-sm.btn-primary.btn-block.btn-login {
+	background-image: linear-gradient(135deg, var(--zn-primary) 0%, color-mix(in srgb, var(--zn-primary) 70%, var(--zn-accent)) 100%) !important;
+}
+
+html.zn-login a.btn.btn-block.btn-default.btn-sm.btn-login-option.btn-login-with-email-link {
+	background-color: #fff !important;
+	color: #1e293b !important;
+}
+
+@keyframes zn-login-mesh {
+	from {
+		background-position: 0% 0%, 100% 100%, 0 0;
+	}
+	to {
+		background-position: 40% 30%, 60% 70%, 0 0;
+	}
+}
+
+@keyframes zn-login-float {
+	from {
+		transform: translate(0, 0) scale(1);
+	}
+	to {
+		transform: translate(-40px, 50px) scale(1.08);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	html.zn-login .zn-login-brand,
+	html.zn-login .zn-login-orb {
+		animation: none;
+	}
+}

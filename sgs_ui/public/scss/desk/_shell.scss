@@ -1,0 +1,470 @@
+// Global sidebar ("app shell"): persistent navigation on every Desk page.
+// Markup is created by js/desk/sidebar.js. Desktop >= 992px: fixed rail that
+// pushes content; below that: off-canvas drawer opened from the navbar.
+
+$zn-lg: 992px;
+
+html.zn {
+	// ---------- sidebar palettes ----------
+	&.zn-sb-dark {
+		--zn-sb-bg: radial-gradient(120% 55% at 0% 0%, color-mix(in srgb, var(--zn-primary) 24%, transparent) 0%, transparent 62%),
+			linear-gradient(180deg, #0b1224 0%, #0a1020 100%);
+		--zn-sb-text: #cbd5e1;
+		--zn-sb-muted: #7d8ba6;
+		--zn-sb-icon: #94a3b8;
+		--zn-sb-hover: rgba(255, 255, 255, 0.06);
+		--zn-sb-active-bg: color-mix(in srgb, var(--zn-primary) 30%, rgba(255, 255, 255, 0.04));
+		--zn-sb-active-text: #ffffff;
+		--zn-sb-border: rgba(255, 255, 255, 0.06);
+		--zn-sb-brand-text: #ffffff;
+	}
+
+	&.zn-sb-light {
+		--zn-sb-bg: var(--zn-surface);
+		--zn-sb-text: #334155;
+		--zn-sb-muted: #7a8699;
+		--zn-sb-icon: #64748b;
+		--zn-sb-hover: var(--zn-surface-3);
+		--zn-sb-active-bg: var(--zn-primary-soft);
+		--zn-sb-active-text: var(--zn-primary-text);
+		--zn-sb-border: var(--zn-border);
+		--zn-sb-brand-text: var(--zn-heading);
+	}
+
+	&.zn-sb-light[data-theme="dark"] {
+		--zn-sb-text: #cbd5e1;
+		--zn-sb-muted: #7d8ba6;
+		--zn-sb-icon: #94a3b8;
+	}
+
+	&.zn-sb-brand {
+		--zn-sb-bg: radial-gradient(110% 50% at 100% 0%, color-mix(in srgb, var(--zn-accent) 38%, transparent) 0%, transparent 60%),
+			linear-gradient(180deg, color-mix(in srgb, var(--zn-primary) 92%, #000) 0%, color-mix(in srgb, var(--zn-primary) 60%, #020617) 100%);
+		--zn-sb-text: rgba(255, 255, 255, 0.86);
+		--zn-sb-muted: rgba(255, 255, 255, 0.58);
+		--zn-sb-icon: rgba(255, 255, 255, 0.72);
+		--zn-sb-hover: rgba(255, 255, 255, 0.1);
+		--zn-sb-active-bg: rgba(255, 255, 255, 0.18);
+		--zn-sb-active-text: #ffffff;
+		--zn-sb-border: rgba(255, 255, 255, 0.1);
+		--zn-sb-brand-text: #ffffff;
+	}
+
+	&.zn-sb-collapsed {
+		--zn-sb-w: var(--zn-sb-w-collapsed);
+	}
+
+	// ---------- push content on desktop ----------
+	// (.main-section wraps the navbar and every page; Frappe pins body padding
+	// to 0 !important, so the offset lives on this wrapper instead)
+	@media (min-width: $zn-lg) {
+		&.zn-has-sidebar .main-section {
+			margin-left: var(--zn-sb-w);
+			transition: margin-left var(--zn-base) var(--zn-ease);
+		}
+		// the logo lives in the sidebar
+		&.zn-has-sidebar .navbar .navbar-brand {
+			display: none;
+		}
+	}
+
+	// ---------- the sidebar ----------
+	.zn-sidebar {
+		position: fixed;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		z-index: 1030;
+		width: var(--zn-sb-w);
+		display: flex;
+		flex-direction: column;
+		background: var(--zn-sb-bg);
+		color: var(--zn-sb-text);
+		border-right: 1px solid var(--zn-sb-border);
+		transition: width var(--zn-base) var(--zn-ease), transform 260ms var(--zn-ease), box-shadow var(--zn-base);
+		overflow: hidden;
+		--icon-stroke: var(--zn-sb-icon);
+		--icon-fill: transparent;
+
+		@media (max-width: $zn-lg - 1) {
+			width: min(300px, 86vw);
+			transform: translateX(-102%);
+			box-shadow: none;
+		}
+	}
+
+	&:not(.zn-has-sidebar) .zn-sidebar {
+		display: none;
+	}
+
+	@media (max-width: $zn-lg - 1) {
+		&.zn-sb-open .zn-sidebar {
+			transform: none;
+			box-shadow: var(--zn-shadow-xl);
+		}
+	}
+
+	.zn-sb-backdrop {
+		position: fixed;
+		inset: 0;
+		z-index: 1029;
+		background: rgba(15, 23, 42, 0.45);
+		backdrop-filter: blur(2px);
+		opacity: 0;
+		pointer-events: none;
+		transition: opacity var(--zn-base) var(--zn-ease);
+	}
+	@media (max-width: $zn-lg - 1) {
+		&.zn-sb-open .zn-sb-backdrop {
+			opacity: 1;
+			pointer-events: auto;
+		}
+	}
+
+	// head: brand
+	.zn-sb-head {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		height: var(--zn-nav-h);
+		padding: 0 16px 0 18px;
+		flex: none;
+		border-bottom: 1px solid var(--zn-sb-border);
+	}
+
+	.zn-sb-brand {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		min-width: 0;
+		color: var(--zn-sb-brand-text);
+		text-decoration: none !important;
+	}
+
+	.zn-sb-logo {
+		width: 34px;
+		height: 34px;
+		flex: none;
+		border-radius: 10px;
+		object-fit: contain;
+		background: #fff;
+		padding: 5px;
+		box-shadow: 0 1px 2px rgba(0, 0, 0, 0.18), 0 0 0 1px rgba(255, 255, 255, 0.08);
+	}
+
+	.zn-sb-logo.is-plain {
+		background: transparent;
+		padding: 0;
+		box-shadow: none;
+		border-radius: 8px;
+	}
+
+	.zn-sb-theme-icon {
+		display: inline-flex;
+	}
+
+	.zn-ico {
+		width: 17px;
+		height: 17px;
+		flex: none;
+	}
+
+	.zn-sb-monogram {
+		width: 34px;
+		height: 34px;
+		flex: none;
+		border-radius: 10px;
+		display: grid;
+		place-items: center;
+		background: var(--zn-gradient);
+		color: #fff;
+		font-weight: 700;
+		font-size: 15px;
+		box-shadow: var(--zn-shadow-brand);
+	}
+
+	.zn-sb-brand-name {
+		font-size: 15.5px;
+		font-weight: 680;
+		letter-spacing: -0.02em;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	// nav
+	.zn-sb-nav {
+		flex: 1;
+		overflow-y: auto;
+		overflow-x: hidden;
+		padding: 12px 0 16px;
+		scrollbar-color: color-mix(in srgb, var(--zn-sb-muted) 50%, transparent) transparent;
+
+		&::-webkit-scrollbar-thumb {
+			background-color: color-mix(in srgb, var(--zn-sb-muted) 40%, transparent);
+		}
+	}
+
+	.zn-sb-section + .zn-sb-section {
+		margin-top: 14px;
+	}
+
+	.zn-sb-label {
+		padding: 6px 24px 6px;
+		font-size: 10.5px;
+		font-weight: 650;
+		letter-spacing: 0.09em;
+		text-transform: uppercase;
+		color: var(--zn-sb-muted);
+		white-space: nowrap;
+	}
+
+	.zn-sb-item {
+		position: relative;
+		display: flex;
+		align-items: center;
+		gap: 11px;
+		height: 36px;
+		margin: 1px 12px;
+		padding: 0 8px 0 10px;
+		border-radius: 9px;
+		color: var(--zn-sb-text);
+		font-size: 13.5px;
+		font-weight: 500;
+		white-space: nowrap;
+		text-decoration: none !important;
+		transition: background-color var(--zn-fast) var(--zn-ease), color var(--zn-fast) var(--zn-ease);
+
+		&:hover {
+			background: var(--zn-sb-hover);
+			color: var(--zn-sb-active-text);
+			--icon-stroke: var(--zn-sb-active-text);
+		}
+
+		&.is-active {
+			background: var(--zn-sb-active-bg);
+			color: var(--zn-sb-active-text);
+			font-weight: 600;
+			--icon-stroke: var(--zn-sb-active-text);
+
+			&::before {
+				content: "";
+				position: absolute;
+				left: -12px;
+				top: 8px;
+				bottom: 8px;
+				width: 3px;
+				border-radius: 0 3px 3px 0;
+				background: var(--zn-gradient-v);
+			}
+		}
+
+		&:focus-visible {
+			outline: 2px solid color-mix(in srgb, var(--zn-accent) 80%, transparent);
+			outline-offset: -2px;
+		}
+	}
+
+	.zn-sb-icon {
+		width: 20px;
+		height: 20px;
+		flex: none;
+		display: grid;
+		place-items: center;
+
+		svg {
+			width: 18px;
+			height: 18px;
+			stroke: var(--icon-stroke);
+		}
+	}
+
+	.zn-sb-text {
+		flex: 1;
+		min-width: 0;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		transition: opacity var(--zn-fast) var(--zn-ease);
+	}
+
+	.zn-sb-caret {
+		flex: none;
+		width: 22px;
+		height: 22px;
+		display: grid;
+		place-items: center;
+		border-radius: 6px;
+		color: var(--zn-sb-muted);
+		background: transparent;
+		border: 0;
+		padding: 0;
+		transition: transform var(--zn-base) var(--zn-ease), background-color var(--zn-fast);
+
+		&:hover {
+			background: var(--zn-sb-hover);
+		}
+		svg {
+			width: 12px;
+			height: 12px;
+			stroke: currentColor;
+		}
+	}
+
+	.zn-sb-group.is-open > .zn-sb-item .zn-sb-caret {
+		transform: rotate(180deg);
+	}
+
+	.zn-sb-children {
+		display: none;
+		position: relative;
+		margin: 2px 0 6px;
+
+		&::before {
+			content: "";
+			position: absolute;
+			left: 31px;
+			top: 2px;
+			bottom: 2px;
+			width: 1px;
+			background: var(--zn-sb-border);
+		}
+
+		.zn-sb-item {
+			height: 32px;
+			margin-left: 34px;
+			font-size: 13px;
+			font-weight: 450;
+
+			&.is-active::before {
+				left: -12px;
+				width: 2px;
+			}
+		}
+		.zn-sb-icon {
+			display: none;
+		}
+	}
+
+	.zn-sb-group.is-open > .zn-sb-children {
+		display: block;
+	}
+
+	// foot
+	.zn-sb-foot {
+		flex: none;
+		display: flex;
+		align-items: center;
+		gap: 4px;
+		padding: 10px 12px 12px;
+		border-top: 1px solid var(--zn-sb-border);
+	}
+
+	.zn-sb-btn {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		gap: 8px;
+		height: 34px;
+		min-width: 34px;
+		padding: 0 9px;
+		border-radius: 9px;
+		border: 0;
+		background: transparent;
+		color: var(--zn-sb-text);
+		font-size: 13px;
+		font-weight: 500;
+		white-space: nowrap;
+		text-decoration: none !important;
+		transition: background-color var(--zn-fast) var(--zn-ease), color var(--zn-fast);
+
+		&:hover {
+			background: var(--zn-sb-hover);
+			color: var(--zn-sb-active-text);
+			--icon-stroke: var(--zn-sb-active-text);
+		}
+		svg {
+			width: 17px;
+			height: 17px;
+			stroke: var(--icon-stroke);
+			flex: none;
+		}
+		&.zn-sb-collapse {
+			margin-left: auto;
+
+			// collapsing is a desktop idea; the mobile drawer just closes
+			@media (max-width: $zn-lg - 1) {
+				display: none;
+			}
+		}
+	}
+
+	// ---------- collapsed rail (desktop only) ----------
+	@media (min-width: $zn-lg) {
+		&.zn-sb-collapsed .zn-sidebar:not(:hover) {
+			.zn-sb-brand-name,
+			.zn-sb-text,
+			.zn-sb-caret,
+			.zn-sb-btn-label {
+				opacity: 0;
+				pointer-events: none;
+			}
+			.zn-sb-children {
+				display: none;
+			}
+			.zn-sb-label {
+				font-size: 0;
+				padding: 0;
+				margin: 10px 22px;
+				height: 1px;
+				background: var(--zn-sb-border);
+			}
+			.zn-sb-head {
+				padding: 0 0 0 19px;
+			}
+			.zn-sb-foot {
+				flex-direction: column;
+				align-items: stretch;
+				.zn-sb-btn {
+					justify-content: flex-start;
+					padding: 0 15px;
+				}
+				.zn-sb-collapse {
+					margin-left: 0;
+				}
+			}
+		}
+
+		// peek: hovering the collapsed rail floats it open over the content
+		&.zn-sb-collapsed .zn-sidebar:hover {
+			width: var(--zn-sb-w-expanded);
+			box-shadow: var(--zn-shadow-xl);
+			transition-delay: 220ms;
+
+			.zn-sb-text,
+			.zn-sb-brand-name,
+			.zn-sb-caret,
+			.zn-sb-btn-label {
+				transition-delay: 260ms;
+			}
+		}
+	}
+
+	// ---------- sidebar disabled on this route (e.g. POS) ----------
+	&.zn-sb-route-hidden {
+		.zn-sidebar,
+		.zn-sb-backdrop {
+			display: none;
+		}
+		@media (min-width: $zn-lg) {
+			.main-section {
+				margin-left: 0;
+			}
+			.navbar .navbar-brand {
+				display: inline-flex;
+			}
+		}
+		.zn-burger {
+			display: none !important;
+		}
+	}
+}

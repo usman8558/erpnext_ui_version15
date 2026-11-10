@@ -1,0 +1,186 @@
+// SGS design tokens.
+// Everything is scoped under html.zn, which the desk bundle adds from the boot
+// payload. Removing that class (or uninstalling the app) restores stock Frappe.
+// Brand colors arrive as --zn-primary / --zn-accent (inline on <html>); every
+// tint below is derived from them with color-mix(), so one color re-themes all.
+
+html.zn {
+	--zn-primary: #4f46e5;
+	--zn-accent: #06b6d4;
+
+	// brand ramp
+	--zn-primary-hover: color-mix(in srgb, var(--zn-primary) 86%, #000);
+	--zn-primary-strong: color-mix(in srgb, var(--zn-primary) 78%, #000);
+	--zn-primary-text: color-mix(in srgb, var(--zn-primary) 84%, #0f172a);
+	--zn-primary-soft: color-mix(in srgb, var(--zn-primary) 11%, transparent);
+	--zn-primary-softer: color-mix(in srgb, var(--zn-primary) 6%, transparent);
+	--zn-primary-ring: color-mix(in srgb, var(--zn-primary) 26%, transparent);
+	--zn-primary-border: color-mix(in srgb, var(--zn-primary) 38%, transparent);
+	--zn-gradient: linear-gradient(135deg, var(--zn-primary) 0%, var(--zn-accent) 100%);
+	--zn-gradient-v: linear-gradient(180deg, var(--zn-primary) 0%, var(--zn-accent) 100%);
+
+	// surfaces (light)
+	--zn-app-bg: #f4f6fa;
+	--zn-surface: #ffffff;
+	--zn-surface-2: #f8fafc;
+	--zn-surface-3: #f1f5f9;
+	--zn-border: #e3e8ef;
+	--zn-border-strong: #cbd5e1;
+	--zn-hairline: rgba(15, 23, 42, 0.06);
+
+	// text (contrast >= 4.5:1 on white)
+	--zn-text: #1e293b;
+	--zn-heading: #0f172a;
+	--zn-muted: #475569;
+	--zn-subtle: #64748b;
+
+	// elevation
+	--zn-shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.05);
+	--zn-shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.06), 0 1px 3px rgba(15, 23, 42, 0.04);
+	--zn-shadow-card: 0 1px 2px rgba(15, 23, 42, 0.04), 0 2px 8px -2px rgba(15, 23, 42, 0.05);
+	--zn-shadow-md: 0 4px 14px -3px rgba(15, 23, 42, 0.09), 0 2px 5px -2px rgba(15, 23, 42, 0.05);
+	--zn-shadow-lg: 0 14px 32px -10px rgba(15, 23, 42, 0.18), 0 4px 10px -4px rgba(15, 23, 42, 0.07);
+	--zn-shadow-xl: 0 28px 56px -14px rgba(15, 23, 42, 0.28), 0 8px 18px -8px rgba(15, 23, 42, 0.1);
+	--zn-shadow-brand: 0 6px 16px -6px color-mix(in srgb, var(--zn-primary) 55%, transparent);
+
+	// shape & motion
+	--zn-radius-sm: 6px;
+	--zn-radius: 8px;
+	--zn-radius-md: 10px;
+	--zn-radius-lg: 14px;
+	--zn-radius-xl: 18px;
+	--zn-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+	// durations scale with SGS Settings > Animation Speed (0 = animations off)
+	--zn-speed: 1;
+	--zn-fast: calc(140ms * var(--zn-speed));
+	--zn-base: calc(200ms * var(--zn-speed));
+	--zn-slow: calc(320ms * var(--zn-speed));
+
+	// layout
+	--zn-sb-w-expanded: 264px;
+	--zn-sb-w-collapsed: 72px;
+	--zn-sb-w: var(--zn-sb-w-expanded);
+	--zn-nav-h: 56px;
+
+	// ---- Frappe variable re-map (light) ----
+	--gray-50: #f8fafc;
+	--gray-100: #f1f5f9;
+	--gray-200: #e2e8f0;
+	--gray-300: #cbd5e1;
+	--gray-400: #94a3b8;
+	--gray-500: #64748b;
+	--gray-600: #475569;
+	--gray-700: #334155;
+	--gray-800: #1e293b;
+	--gray-900: #0f172a;
+
+	--primary: var(--zn-primary);
+	--primary-color: var(--zn-primary);
+	--brand-color: var(--zn-primary);
+	--btn-primary: var(--zn-primary);
+	--border-primary: var(--zn-primary);
+	--progress-bar-bg: var(--zn-primary);
+	--checkbox-gradient: linear-gradient(180deg, var(--zn-primary) 0%, var(--zn-primary-hover) 100%);
+	--checkbox-focus-shadow: 0 0 0 3px var(--zn-primary-ring);
+	--date-active-bg: var(--zn-primary);
+	--date-active-text: #fff;
+	--date-range-bg: var(--zn-primary-soft);
+
+	--bg-color: var(--zn-app-bg);
+	--fg-color: var(--zn-surface);
+	--card-bg: var(--zn-surface);
+	--modal-bg: var(--zn-surface);
+	--popover-bg: var(--zn-surface);
+	--toast-bg: var(--zn-surface);
+	--subtle-fg: var(--zn-surface-3);
+	--subtle-accent: var(--zn-surface-2);
+	--fg-hover-color: var(--zn-surface-3);
+	--highlight-color: var(--zn-surface-2);
+	--control-bg: #f1f4f9;
+	--control-bg-on-gray: #e9eef5;
+	--disabled-control-bg: var(--zn-surface-2);
+	--awesomebar-focus-bg: var(--zn-surface);
+	--sidebar-select-color: var(--zn-primary-soft);
+	--btn-default-bg: var(--zn-surface);
+	--btn-default-hover-bg: var(--zn-surface-3);
+
+	--border-color: var(--zn-border);
+	--dark-border-color: var(--zn-border-strong);
+	--table-border-color: var(--zn-border);
+	--btn-group-border-color: var(--zn-border-strong);
+
+	--text-color: var(--zn-text);
+	--heading-color: var(--zn-heading);
+	--text-muted: var(--zn-muted);
+	--text-light: var(--zn-subtle);
+	--icon-stroke: var(--gray-700);
+
+	--focus-default: 0 0 0 3px var(--zn-primary-ring);
+	--focus-blue: 0 0 0 3px var(--zn-primary-ring);
+
+	--shadow-sm: var(--zn-shadow-sm);
+	--shadow-base: var(--zn-shadow-sm);
+	--shadow-md: var(--zn-shadow-md);
+	--shadow-lg: var(--zn-shadow-lg);
+	--shadow-xl: var(--zn-shadow-lg);
+	--shadow-2xl: var(--zn-shadow-xl);
+	--card-shadow: var(--zn-shadow-card);
+	--modal-shadow: var(--zn-shadow-xl);
+
+	--border-radius: var(--zn-radius);
+	--border-radius-md: var(--zn-radius-md);
+	--border-radius-lg: var(--zn-radius-lg);
+	--border-radius-xl: var(--zn-radius-xl);
+
+	--navbar-height: var(--zn-nav-h);
+	--page-head-height: 64px;
+}
+
+// ---- Dark theme ("midnight slate") ----
+html.zn[data-theme="dark"] {
+	--zn-primary-text: color-mix(in srgb, var(--zn-primary) 55%, #fff);
+	--zn-primary-soft: color-mix(in srgb, var(--zn-primary) 22%, transparent);
+	--zn-primary-softer: color-mix(in srgb, var(--zn-primary) 12%, transparent);
+	--zn-primary-ring: color-mix(in srgb, var(--zn-primary) 45%, transparent);
+
+	--zn-app-bg: #0a0f1d;
+	--zn-surface: #0f172a;
+	--zn-surface-2: #131c31;
+	--zn-surface-3: #18233b;
+	--zn-border: #1e293f;
+	--zn-border-strong: #2c3a55;
+	--zn-hairline: rgba(255, 255, 255, 0.06);
+
+	--zn-text: #e2e8f0;
+	--zn-heading: #f8fafc;
+	--zn-muted: #a3b0c5;
+	--zn-subtle: #8593ab;
+
+	--zn-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.4);
+	--zn-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+	--zn-shadow-card: 0 1px 2px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.02);
+	--zn-shadow-md: 0 6px 18px -6px rgba(0, 0, 0, 0.6);
+	--zn-shadow-lg: 0 16px 36px -12px rgba(0, 0, 0, 0.7);
+	--zn-shadow-xl: 0 30px 60px -16px rgba(0, 0, 0, 0.8);
+
+	--gray-50: #f8fafc;
+	--gray-100: #e2e8f0;
+	--gray-200: #cbd5e1;
+	--gray-300: #94a3b8;
+	--gray-400: #8593ab;
+	--gray-500: #64748b;
+	--gray-600: #3b4a66;
+	--gray-700: #26334d;
+	--gray-800: #18233b;
+	--gray-900: #0f172a;
+
+	--control-bg: #16203a;
+	--control-bg-on-gray: #1b2743;
+	--disabled-control-bg: #131c31;
+	--btn-default-bg: #16203a;
+	--btn-default-hover-bg: #1d2a47;
+	--btn-primary: var(--zn-primary);
+	--icon-stroke: #a3b0c5;
+	--text-on-gray: #e2e8f0;
+	--checkbox-color: #fff;
+}

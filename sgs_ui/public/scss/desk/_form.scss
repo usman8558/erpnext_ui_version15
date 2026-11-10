@@ -1,0 +1,153 @@
+// Form view: tabs, sections, grids, sidebar, timeline.
+
+html.zn {
+	// tabs
+	// the tab bar is sticky while the form scrolls: it must stay opaque
+	.form-tabs-list {
+		border-bottom: 1px solid var(--zn-border);
+		background: var(--zn-surface);
+
+		.form-tabs .nav-item .nav-link {
+			position: relative;
+			color: var(--zn-subtle);
+			font-weight: 550;
+			padding: 12px 2px;
+			margin-right: 22px;
+			border: 0;
+			background: transparent;
+			transition: color var(--zn-fast) var(--zn-ease);
+
+			&:hover {
+				color: var(--zn-heading);
+			}
+
+			&.active {
+				color: var(--zn-heading);
+				font-weight: 650;
+				border: 0;
+
+				&::after {
+					content: "";
+					position: absolute;
+					left: 0;
+					right: 0;
+					bottom: -1px;
+					height: 2px;
+					border-radius: 2px 2px 0 0;
+					background: var(--zn-gradient);
+				}
+			}
+		}
+	}
+
+	// sections
+	.form-section,
+	.form-dashboard-section {
+		.section-head {
+			font-size: 14.5px;
+			font-weight: 650;
+			letter-spacing: -0.01em;
+			color: var(--zn-heading);
+
+			&.collapsible .collapse-indicator {
+				color: var(--zn-subtle);
+			}
+		}
+	}
+
+	.form-section.card-section,
+	.form-dashboard-section {
+		border-bottom-color: var(--zn-border);
+	}
+
+	.form-column > form > .frappe-control,
+	.form-column .frappe-control {
+		margin-bottom: 4px;
+	}
+
+	// read-only values
+	.frappe-control .like-disabled-input,
+	.frappe-control[data-fieldtype] .control-value {
+		color: var(--zn-heading);
+	}
+
+	// child tables
+	// no overflow:hidden: the Link dropdown of an editable row (e.g. Item Code)
+	// must be able to drop below the table
+	.form-grid-container .form-grid,
+	.form-grid {
+		border-radius: 12px;
+		border-color: var(--zn-border);
+	}
+
+	.grid-heading-row {
+		background: var(--zn-surface-2);
+		color: var(--zn-muted);
+		font-weight: 600;
+		border-bottom: 1px solid var(--zn-border);
+		border-top-left-radius: 11px;
+		border-top-right-radius: 11px;
+	}
+
+	.grid-body .rows .grid-row {
+		transition: background-color var(--zn-fast);
+		&:hover {
+			background: var(--zn-primary-softer);
+		}
+	}
+
+	.grid-footer {
+		background: transparent;
+	}
+
+	// form sidebar
+	.form-sidebar {
+		.sidebar-image-section .sidebar-standard-image .standard-image,
+		.sidebar-image-section img {
+			border-radius: 16px;
+		}
+
+		.sidebar-label {
+			color: var(--zn-subtle);
+		}
+
+		.form-sidebar-items .icon-btn,
+		.add-assignment-btn,
+		.add-attachment-btn {
+			border-radius: 8px;
+		}
+	}
+
+	// form message banners
+	.form-message {
+		border-radius: 10px;
+	}
+
+	// timeline / activity
+	.new-timeline,
+	.timeline {
+		.timeline-badge {
+			box-shadow: 0 0 0 4px var(--zn-app-bg);
+		}
+		.timeline-content {
+			color: var(--zn-text);
+		}
+		.timeline-item.frappe-card,
+		.comment-content {
+			border-radius: 12px;
+		}
+	}
+
+	.comment-box {
+		.comment-input-container .ql-container,
+		.comment-input-wrapper {
+			border-radius: 12px;
+		}
+	}
+
+	// document status in the title
+	.page-head .indicator-pill {
+		height: 24px;
+		padding: 0 10px;
+	}
+}

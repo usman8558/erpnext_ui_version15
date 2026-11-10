@@ -1,0 +1,321 @@
+// Top navbar: glass / solid / brand styles, breadcrumbs, search launcher, icons.
+
+html.zn {
+	header .sticky-top {
+		z-index: 1020;
+	}
+
+	.navbar {
+		height: var(--zn-nav-h);
+		border-bottom: 1px solid var(--zn-border);
+		transition: background-color var(--zn-base) var(--zn-ease), box-shadow var(--zn-base) var(--zn-ease);
+
+		.container {
+			padding: 0 20px;
+			gap: 6px;
+		}
+
+		.nav-item {
+			margin-left: 6px;
+		}
+
+		.vertical-bar {
+			display: none !important;
+		}
+
+		.nav-link,
+		.btn-reset.nav-link {
+			color: var(--zn-muted);
+		}
+	}
+
+	// "Glass" without backdrop-filter: a blurred sticky bar re-renders on every
+	// scroll frame (measured: 16.7 -> 21.6 ms/frame, worse on RDP/Citrix/VMs
+	// that render in software). A near-opaque surface looks almost the same.
+	&.zn-nav-glass .navbar {
+		background: color-mix(in srgb, var(--zn-surface) 94%, transparent);
+	}
+
+	&.zn-nav-solid .navbar {
+		background: var(--zn-surface);
+	}
+
+	&.zn-scrolled .navbar {
+		box-shadow: 0 1px 0 var(--zn-hairline), 0 6px 18px -12px rgba(15, 23, 42, 0.18);
+	}
+
+	// ---------- breadcrumbs ----------
+	#navbar-breadcrumbs {
+		align-items: center;
+		gap: 2px;
+		margin-left: 4px;
+
+		li {
+			display: inline-flex;
+			align-items: center;
+			font-size: 13px;
+
+			a {
+				color: var(--zn-muted);
+				padding: 5px 8px;
+				border-radius: 7px;
+				margin: 0 !important;
+				font-weight: 500;
+				transition: background-color var(--zn-fast), color var(--zn-fast);
+
+				&:hover {
+					background: var(--zn-surface-3);
+					color: var(--zn-heading);
+					text-decoration: none;
+				}
+			}
+
+			&:last-child a {
+				color: var(--zn-heading);
+				font-weight: 600;
+			}
+		}
+
+		// Frappe draws an arrow inside every link (first one included); draw it
+		// between items instead, with the same RTL-aware arrow image.
+		li a::before {
+			display: none !important;
+		}
+		li + li::before {
+			content: #{"/*!rtl:var(--left-arrow-svg);*/"}var(--right-arrow-svg);
+			display: inline-flex;
+			margin: 0 2px;
+			opacity: 0.55;
+			line-height: 1;
+			padding: 0;
+			background: none;
+		}
+		li.disabled a {
+			pointer-events: none;
+		}
+	}
+
+	// ---------- search: launcher pill ----------
+	.navbar .search-bar {
+		max-width: 440px;
+		flex: 1 1 360px;
+		margin: 0 12px;
+
+		.awesomplete input,
+		input#navbar-search {
+			height: 36px;
+			padding-left: 38px;
+			padding-right: 64px;
+			border-radius: 10px;
+			background: var(--zn-surface-3);
+			border: 1px solid var(--zn-border);
+			font-size: 13.5px;
+			cursor: pointer;
+			box-shadow: none;
+
+			&:hover {
+				border-color: var(--zn-border-strong);
+				background: var(--zn-surface);
+			}
+		}
+
+		.search-icon {
+			margin-left: 13px;
+			svg {
+				stroke: var(--zn-subtle);
+			}
+		}
+
+		.zn-search-kbd {
+			position: absolute;
+			right: 8px;
+			top: 50%;
+			transform: translateY(-50%);
+			pointer-events: none;
+			z-index: 2;
+		}
+	}
+
+	// when the palette is on, the inline dropdown never shows
+	&.zn-palette-on .navbar .search-bar .awesomplete > ul {
+		display: none !important;
+	}
+
+	// ---------- right-side icons ----------
+	.navbar .notifications-icon,
+	.navbar .dropdown-help > .nav-link,
+	.zn-nav-icon {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		height: 36px;
+		min-width: 36px;
+		padding: 0 8px;
+		border-radius: 10px;
+		color: var(--zn-muted);
+		transition: background-color var(--zn-fast) var(--zn-ease), color var(--zn-fast);
+
+		&:hover {
+			background: var(--zn-surface-3);
+			color: var(--zn-heading);
+		}
+	}
+
+	.zn-nav-icon {
+		border: 0;
+		background: transparent;
+		svg {
+			width: 18px;
+			height: 18px;
+			stroke: currentColor;
+		}
+	}
+
+	.navbar .dropdown-help > .nav-link span {
+		display: inline-flex;
+		align-items: center;
+		gap: 4px;
+		font-weight: 500;
+	}
+
+	.navbar .dropdown-navbar-user .avatar {
+		width: 32px;
+		height: 32px;
+		border-radius: 50%;
+		box-shadow: 0 0 0 2px var(--zn-surface), 0 0 0 4px var(--zn-primary-soft);
+		transition: box-shadow var(--zn-fast);
+	}
+	.navbar .dropdown-navbar-user > .nav-link {
+		border-radius: 50%;
+		&:focus,
+		&:focus-visible {
+			outline: none;
+			box-shadow: none;
+		}
+	}
+	.navbar .dropdown-navbar-user > .nav-link:focus-visible .avatar {
+		box-shadow: 0 0 0 2px var(--zn-surface), 0 0 0 4px var(--zn-primary-ring);
+	}
+	.navbar .dropdown-navbar-user:hover .avatar {
+		box-shadow: 0 0 0 2px var(--zn-surface), 0 0 0 4px var(--zn-primary-ring);
+	}
+
+	// notifications panel
+	.navbar .notifications-list {
+		border-radius: 14px;
+		padding: 0;
+		overflow: hidden;
+		width: 400px;
+
+		.notification-list-header {
+			padding: 12px 14px;
+			border-bottom: 1px solid var(--zn-border);
+		}
+	}
+
+	// user menu header (added by js)
+	.zn-user-card {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		padding: 8px 10px 10px;
+		margin: -2px -2px 6px;
+		border-bottom: 1px solid var(--zn-border);
+
+		.avatar {
+			width: 36px;
+			height: 36px;
+		}
+		.zn-user-name {
+			font-weight: 600;
+			color: var(--zn-heading);
+			line-height: 1.25;
+		}
+		.zn-user-mail {
+			font-size: 12px;
+			color: var(--zn-subtle);
+			max-width: 200px;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+	}
+
+	#toolbar-user {
+		min-width: 250px;
+	}
+
+	// ---------- burger (mobile) ----------
+	.zn-burger {
+		display: none;
+	}
+	@media (max-width: 991px) {
+		&.zn-has-sidebar .zn-burger {
+			display: inline-flex;
+			margin-right: 4px;
+		}
+		// the drawer carries the brand
+		&.zn-has-sidebar .navbar .navbar-brand {
+			display: none;
+		}
+		.navbar .search-bar {
+			margin: 0 6px;
+		}
+	}
+	@media (max-width: 767px) {
+		.navbar .search-bar {
+			.zn-search-kbd {
+				display: none;
+			}
+			input#navbar-search {
+				padding-right: 12px;
+			}
+		}
+	}
+
+	// ---------- brand navbar ----------
+	&.zn-nav-brand .navbar {
+		background: var(--zn-gradient);
+		border-bottom-color: transparent;
+
+		#navbar-breadcrumbs li a,
+		#navbar-breadcrumbs li:last-child a,
+		.nav-link,
+		.zn-nav-icon,
+		.notifications-icon {
+			color: rgba(255, 255, 255, 0.92);
+			--icon-stroke: #fff;
+		}
+		#navbar-breadcrumbs li a:hover,
+		.zn-nav-icon:hover,
+		.notifications-icon:hover,
+		.dropdown-help > .nav-link:hover {
+			background: rgba(255, 255, 255, 0.14);
+			color: #fff;
+		}
+		#navbar-breadcrumbs li + li::before {
+			filter: invert(1);
+			opacity: 0.7;
+		}
+		.search-bar input#navbar-search {
+			background: rgba(255, 255, 255, 0.16);
+			border-color: rgba(255, 255, 255, 0.22);
+			color: #fff;
+			&::placeholder {
+				color: rgba(255, 255, 255, 0.78);
+			}
+		}
+		.search-bar .search-icon svg {
+			stroke: #fff;
+		}
+		.zn-search-kbd {
+			background: rgba(255, 255, 255, 0.16);
+			border-color: rgba(255, 255, 255, 0.25);
+			color: #fff;
+		}
+		svg.es-icon,
+		svg.icon {
+			stroke: #fff;
+		}
+	}
+}

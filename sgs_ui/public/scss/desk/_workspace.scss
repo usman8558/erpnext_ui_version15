@@ -1,0 +1,585 @@
+// Workspaces: layout, hero header and widget redesign (read mode).
+// Edit mode keeps Frappe's own editing chrome fully working.
+
+$zn-lg: 992px;
+$ws: '[data-page-route="Workspaces"]';
+
+html.zn {
+	#{$ws} {
+		// one natural page scroll instead of two inner scroll panes
+		@media (min-width: $zn-lg) {
+			.layout-main {
+				height: auto;
+				.layout-side-section,
+				.layout-main-section-wrapper {
+					height: auto;
+					overflow: visible;
+				}
+			}
+		}
+
+		.layout-main-section-wrapper {
+			margin-top: 0;
+			padding-top: 6px;
+		}
+
+		.layout-main-section {
+			background: transparent;
+			border: 0 !important;
+			box-shadow: none;
+			padding: 0 0 24px;
+
+			&.edit-mode {
+				background: var(--zn-surface-2) !important;
+				border: 1px dashed var(--zn-border-strong) !important;
+				border-radius: var(--zn-radius-lg);
+				padding: 14px;
+			}
+		}
+
+		.codex-editor {
+			min-height: 200px;
+		}
+
+		.workspace-footer {
+			height: auto;
+			gap: 8px;
+			padding: 4px 0 0;
+			.btn {
+				height: 32px;
+			}
+		}
+
+		// section headings ("Your Shortcuts", "Reports & Masters")
+		.ce-block__content .ce-header {
+			padding-left: 2px !important;
+			padding-top: 14px;
+
+			.h4,
+			h4 {
+				font-size: 16px;
+				font-weight: 650;
+				letter-spacing: -0.015em;
+				color: var(--zn-heading);
+			}
+		}
+
+		// ---------- link cards ----------
+		.widget.links-widget-box {
+			padding: 16px 16px 12px;
+			background: var(--zn-surface);
+			border: 1px solid var(--zn-border);
+			border-radius: var(--zn-radius-lg);
+			box-shadow: var(--zn-shadow-card);
+
+			.widget-head {
+				gap: 10px;
+				padding-bottom: 10px;
+				border-bottom: 1px solid var(--zn-border);
+			}
+			.widget-head .widget-label .widget-title {
+				font-size: 14.5px;
+				font-weight: 650;
+				letter-spacing: -0.012em;
+				color: var(--zn-heading) !important;
+			}
+
+			.widget-body {
+				padding-top: 4px;
+			}
+
+			.link-item {
+				align-items: center;
+				padding: 7px 8px;
+				margin: 1px -6px;
+				border-radius: 8px;
+				font-size: 13.5px;
+				color: var(--zn-text);
+				transition: background-color var(--zn-fast) var(--zn-ease), color var(--zn-fast) var(--zn-ease);
+
+				&:first-child {
+					margin-top: 6px;
+				}
+
+				svg {
+					opacity: 0;
+					transition: opacity var(--zn-fast), transform var(--zn-fast);
+					transform: translateX(-3px);
+				}
+
+				&:hover {
+					background: var(--zn-primary-softer);
+					color: var(--zn-primary-text);
+					--icon-stroke: var(--zn-primary-text);
+
+					.link-content {
+						color: var(--zn-primary-text);
+					}
+					svg {
+						opacity: 1;
+						transform: none;
+					}
+				}
+			}
+
+			.link-content.disabled-link,
+			.disabled-link {
+				color: var(--zn-subtle);
+			}
+
+			.indicator-pill {
+				height: 20px;
+				font-size: 11px;
+			}
+		}
+
+		// ---------- number cards -> KPI tiles ----------
+		// the accent bar is a background layer: it follows the rounded corners
+		// without overflow:hidden, which would clip the card's "..." menu
+		.widget.number-widget-box {
+			position: relative;
+			padding: 16px 18px;
+			background: linear-gradient(90deg, var(--zn-primary), var(--zn-accent)) top left / 100% 3px no-repeat,
+				var(--zn-surface);
+			border: 1px solid var(--zn-border);
+			border-radius: var(--zn-radius-lg);
+			box-shadow: var(--zn-shadow-card);
+			transition: box-shadow var(--zn-base) var(--zn-ease), border-color var(--zn-base) var(--zn-ease);
+
+			// no transform lift here: a transform creates a stacking context that
+			// traps the card's "..." menu under the neighbouring card
+			&:hover {
+				box-shadow: var(--zn-shadow-md);
+				border-color: var(--zn-border-strong);
+			}
+
+			.widget-head .widget-title {
+				font-size: 11px;
+				font-weight: 650;
+				letter-spacing: 0.07em;
+				color: var(--zn-subtle);
+			}
+
+			.widget-body .widget-content .number {
+				font-size: 28px;
+				font-weight: 700;
+				letter-spacing: -0.03em;
+				color: var(--zn-heading);
+				font-variant-numeric: tabular-nums;
+			}
+
+			.card-stats {
+				font-weight: 600;
+			}
+		}
+
+		// ---------- charts ----------
+		.widget.dashboard-widget-box {
+			padding: 14px 16px;
+			background: var(--zn-surface);
+			border: 1px solid var(--zn-border);
+			box-shadow: var(--zn-shadow-card);
+
+			.widget-head .widget-title {
+				font-size: 14.5px;
+				font-weight: 650;
+				color: var(--zn-heading);
+			}
+		}
+
+		// ---------- quick lists ----------
+		.widget.quick-list-widget-box {
+			padding: 14px 16px;
+			background: var(--zn-surface);
+			border: 1px solid var(--zn-border);
+			border-radius: var(--zn-radius-lg);
+			box-shadow: var(--zn-shadow-card);
+
+			.widget-head .widget-title {
+				font-size: 14.5px;
+				font-weight: 650;
+				color: var(--zn-heading);
+			}
+
+			.quick-list-item {
+				border-radius: 8px;
+				padding: 8px;
+				margin: 0 -8px;
+				&:hover {
+					background: var(--zn-primary-softer);
+				}
+			}
+		}
+
+		// ---------- onboarding ----------
+		.widget.onboarding-widget-box {
+			border: 1px solid var(--zn-border);
+			border-radius: var(--zn-radius-lg);
+			box-shadow: var(--zn-shadow-card);
+		}
+
+		// ---------- custom HTML blocks ----------
+		.widget.custom-block-widget-box {
+			border-radius: var(--zn-radius-lg);
+		}
+
+		// edit mode: no hover lifts (widget controls and menus must stack normally)
+		.layout-main-section.edit-mode .widget {
+			transform: none !important;
+		}
+
+		// spacer blocks are layout only (Frappe paints them with the card color)
+		.widget.spacer {
+			background: transparent;
+			box-shadow: none;
+			border: 0;
+		}
+	}
+
+	// ---------- global sidebar replaces the workspace sidebar ----------
+	&.zn-has-sidebar #{$ws} {
+		.layout-side-section {
+			display: none;
+		}
+		.page-head .sidebar-toggle-btn {
+			display: none;
+		}
+		// edit mode needs Frappe's sidebar (ordering, hide/unhide, settings).
+		// .zn-editing is mirrored from Frappe's .edit-mode by js/desk/hero.js
+		&.zn-editing .layout-side-section {
+			display: block;
+		}
+	}
+
+	// ---------- hero replaces the plain title bar in read mode ----------
+	&.zn-hero-on #{$ws}:not(.zn-editing) .page-head {
+		display: none;
+	}
+
+	#{$ws} .layout-main-section.edit-mode .zn-hero {
+		display: none;
+	}
+}
+
+// ---------- shortcut icon tiles (added by js) ----------
+html.zn .zn-tile {
+	--zn-tile: var(--zn-primary);
+	flex: none;
+	width: 40px;
+	height: 40px;
+	border-radius: 11px;
+	display: grid;
+	place-items: center;
+	color: var(--zn-tile);
+	background: color-mix(in srgb, var(--zn-tile) 12%, transparent);
+	box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--zn-tile) 16%, transparent);
+
+	svg {
+		width: 19px;
+		height: 19px;
+		stroke: var(--zn-tile);
+		--icon-stroke: var(--zn-tile);
+		margin: 0 !important;
+	}
+
+	&[data-tone="indigo"] {
+		--zn-tile: var(--zn-primary);
+	}
+	&[data-tone="cyan"] {
+		--zn-tile: #0891b2;
+	}
+	&[data-tone="emerald"] {
+		--zn-tile: #059669;
+	}
+	&[data-tone="amber"] {
+		--zn-tile: #d97706;
+	}
+	&[data-tone="rose"] {
+		--zn-tile: #e11d48;
+	}
+	&[data-tone="violet"] {
+		--zn-tile: #7c3aed;
+	}
+	&[data-tone="sky"] {
+		--zn-tile: #0284c7;
+	}
+	&[data-tone="teal"] {
+		--zn-tile: #0d9488;
+	}
+}
+
+html.zn[data-theme="dark"] .zn-tile {
+	background: color-mix(in srgb, var(--zn-tile) 20%, transparent);
+	color: color-mix(in srgb, var(--zn-tile) 60%, #fff);
+	svg {
+		stroke: color-mix(in srgb, var(--zn-tile) 55%, #fff);
+	}
+}
+
+html.zn .links-widget-box .zn-tile {
+	width: 30px;
+	height: 30px;
+	border-radius: 9px;
+	svg {
+		width: 16px;
+		height: 16px;
+	}
+}
+
+// ---------- hero ----------
+html.zn .zn-hero {
+	position: relative;
+	overflow: hidden;
+	display: flex;
+	align-items: flex-end;
+	justify-content: space-between;
+	gap: 20px;
+	flex-wrap: wrap;
+	margin: 6px 0 10px;
+	padding: 26px 28px 24px;
+	border-radius: var(--zn-radius-xl);
+	color: #fff;
+	background: radial-gradient(90% 140% at 100% 0%, color-mix(in srgb, var(--zn-accent) 55%, transparent) 0%, transparent 55%),
+		radial-gradient(70% 120% at 0% 100%, color-mix(in srgb, var(--zn-primary) 80%, #fff 0%) 0%, transparent 70%),
+		linear-gradient(120deg, color-mix(in srgb, var(--zn-primary) 82%, #0b1020) 0%, var(--zn-primary) 55%, color-mix(in srgb, var(--zn-accent) 75%, var(--zn-primary)) 100%);
+	box-shadow: var(--zn-shadow-md), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+	isolation: isolate;
+
+	// fine grid texture
+	&::before {
+		content: "";
+		position: absolute;
+		inset: 0;
+		z-index: -1;
+		background-image: linear-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px),
+			linear-gradient(90deg, rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+		background-size: 28px 28px;
+		mask-image: radial-gradient(80% 120% at 85% 10%, #000 0%, transparent 75%);
+		-webkit-mask-image: radial-gradient(80% 120% at 85% 10%, #000 0%, transparent 75%);
+	}
+
+	// soft glow orb
+	&::after {
+		content: "";
+		position: absolute;
+		z-index: -1;
+		width: 320px;
+		height: 320px;
+		right: -80px;
+		top: -170px;
+		border-radius: 50%;
+		background: radial-gradient(circle, rgba(255, 255, 255, 0.28) 0%, transparent 65%);
+		// static on purpose: an endless animation keeps the GPU busy all day
+	}
+
+	.zn-hero-main {
+		min-width: 0;
+	}
+
+	.zn-hero-eyebrow {
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+		font-size: 13px;
+		font-weight: 550;
+		color: rgba(255, 255, 255, 0.85);
+		margin-bottom: 6px;
+
+		.zn-ico {
+			width: 16px;
+			height: 16px;
+		}
+	}
+
+	.zn-hero-title {
+		margin: 0;
+		font-size: 30px;
+		line-height: 1.15;
+		font-weight: 720;
+		letter-spacing: -0.03em;
+		color: #fff;
+	}
+
+	.zn-hero-sub {
+		margin-top: 8px;
+		font-size: 14px;
+		color: rgba(255, 255, 255, 0.82);
+		max-width: 620px;
+	}
+
+	.zn-hero-meta {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+	}
+
+	.zn-chip {
+		display: inline-flex;
+		align-items: center;
+		gap: 7px;
+		height: 30px;
+		padding: 0 12px;
+		border-radius: 999px;
+		font-size: 12.5px;
+		font-weight: 550;
+		color: #fff;
+		background: rgba(255, 255, 255, 0.16);
+		border: 1px solid rgba(255, 255, 255, 0.22);
+		white-space: nowrap;
+
+		svg {
+			width: 14px;
+			height: 14px;
+			stroke: #fff;
+			--icon-stroke: #fff;
+		}
+	}
+
+	@media (max-width: 767px) {
+		padding: 20px 18px;
+		.zn-hero-title {
+			font-size: 24px;
+		}
+	}
+}
+
+@keyframes zn-drift {
+	from {
+		transform: translate(0, 0);
+	}
+	to {
+		transform: translate(-60px, 40px);
+	}
+}
+
+// Shortcut tiles: styled the same in real workspaces and in the SGS
+// Settings motion playground (.zn-playground), so previews are faithful.
+html.zn {
+	#{$ws},
+	.zn-playground {
+		// ---------- shortcut tiles ----------
+		.widget.shortcut-widget-box {
+			position: relative;
+			justify-content: center;
+			min-height: 66px;
+			padding: 12px 14px;
+			background: var(--zn-surface);
+			border: 1px solid var(--zn-border);
+			border-radius: var(--zn-radius-lg);
+			box-shadow: var(--zn-shadow-card);
+			transition: transform var(--zn-base) var(--zn-ease), box-shadow var(--zn-base) var(--zn-ease),
+				border-color var(--zn-base) var(--zn-ease);
+
+			.widget-head {
+				width: 100%;
+				gap: 12px;
+			}
+			.widget-label {
+				flex: 1;
+			}
+			.widget-title {
+				font-size: 14px;
+				font-weight: 600;
+				color: var(--zn-heading) !important;
+				letter-spacing: -0.01em;
+			}
+
+			// the stock arrow becomes a corner hover affordance (out of the layout
+			// flow, so it never steals width from the label)
+			.widget-control > svg {
+				position: absolute;
+				top: 10px;
+				right: 10px;
+				margin: 0 !important;
+				opacity: 0;
+				transform: translate(-4px, 4px);
+				transition: opacity var(--zn-base) var(--zn-ease), transform var(--zn-base) var(--zn-ease);
+				--icon-stroke: var(--zn-primary-text);
+			}
+
+			@media (max-width: 1199px) {
+				padding: 10px 12px;
+
+				.widget-head {
+					gap: 10px;
+				}
+				.zn-tile {
+					width: 34px;
+					height: 34px;
+					border-radius: 10px;
+					svg {
+						width: 17px;
+						height: 17px;
+					}
+				}
+				.widget-title {
+					font-size: 13.5px;
+				}
+			}
+
+			.indicator-pill {
+				font-size: 11px;
+				height: 20px;
+				padding: 0 8px;
+			}
+
+			// long labels wrap to two lines instead of disappearing
+			.widget-title .ellipsis {
+				white-space: normal;
+				display: -webkit-box;
+				-webkit-line-clamp: 2;
+				-webkit-box-orient: vertical;
+				line-height: 1.3;
+			}
+
+			// tiles with a count: count becomes a subtitle under the label,
+			// so narrow columns never squeeze the label out
+			// .zn-has-count is set by js/desk/tiles.js when Frappe adds the count pill
+			&.zn-has-count .widget-head {
+				display: grid;
+				grid-template-columns: auto minmax(0, 1fr);
+				grid-template-rows: auto auto;
+				column-gap: 12px;
+				row-gap: 4px;
+				align-items: center;
+
+				.zn-tile {
+					grid-row: 1 / span 2;
+					grid-column: 1;
+				}
+				.widget-label {
+					grid-row: 1;
+					grid-column: 2;
+					align-self: end;
+				}
+				.widget-control {
+					grid-row: 2;
+					grid-column: 2;
+					justify-self: start;
+					align-self: start;
+
+					> * {
+						margin-left: 0;
+						margin-right: 6px;
+					}
+				}
+			}
+
+			// base hover feedback; lift / glow come from _effects.scss (SGS Settings)
+			&:hover,
+			&:focus-visible {
+				border-color: var(--zn-primary-border);
+				--icon-stroke: var(--zn-primary-text);
+
+				.widget-title {
+					color: var(--zn-primary-text) !important;
+				}
+				.widget-control > svg {
+					opacity: 1;
+					transform: none;
+				}
+			}
+		}
+
+	}
+}
